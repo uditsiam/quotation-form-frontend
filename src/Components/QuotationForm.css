@@ -1,0 +1,14 @@
+#customer-details-title, #other-details-title, #sea-freight-charges-title, #local-charges-title{
+    color: white!important;
+}
+
+#sea-freight-charges-title, #local-charges-title{
+    background-color: #ED1C24;
+    padding: 5px;
+    padding-left: 10px;
+    border-radius: 10px;
+}
+
+#local-charges-title{
+    background-color: #1A2067;
+}
