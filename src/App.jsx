@@ -7,14 +7,14 @@ import 'antd/dist/reset.css';
 import QuotationForm1 from './Components/QuotationForm2'
 import QuotationForm3 from './Components/QuotationForm3'
 import Test from './Components/test'
-
+import Test2 from './Components/Test2'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-    {/* <Test></Test> */}
+    {/* <Test2></Test2> */}
       <QuotationForm3></QuotationForm3>
       {/* <QuotationForm></QuotationForm> */}
     </>

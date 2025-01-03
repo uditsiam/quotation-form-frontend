@@ -8,6 +8,8 @@ import jsPDF from 'jspdf';
 const { Title, Text } = Typography;
 const { Option } = Select;
 
+//new table design custom CSS
+
 
 //company name auto complete
 const companyOptions = [
@@ -92,6 +94,442 @@ const QuotationForm3 = () => {
         },
         // Add more rows as needed
     ];
+
+    //new table design
+    const [dataSource, setDataSource] = useState([
+        { key: "1", company: "OOCL", twentyFt: "", twentyFtCurrency: "USD", fortyFt: "", fortyFtCurrency: "USD", fortyFtHC: "", fortyFtHCCurrency: "USD", remark: "" },
+        { key: "2", company: "KMTC", twentyFt: "", twentyFtCurrency: "USD", fortyFt: "", fortyFtCurrency: "USD", fortyFtHC: "", fortyFtHCCurrency: "USD", remark: "" },
+        { key: "3", company: "ONE", twentyFt: "", twentyFtCurrency: "USD", fortyFt: "", fortyFtCurrency: "USD", fortyFtHC: "", fortyFtHCCurrency: "USD", remark: "" },
+    ]);
+
+    const currencies = ["NOK", "NZD", "JPY", "SGD", "THB", "FJD", "USD", "RMB", "EUR", "HKD", "AUD", "MYR", "GBP", "CHF", "CNY"];
+
+    const freightChargesColumns = [
+        {
+            title: "Freight Charge (Container)",
+            dataIndex: "company",
+            key: "company",
+        },
+        {
+            title: "20'",
+            dataIndex: "twentyFt",
+            key: "twentyFt",
+            render: (_, record) => (
+                <div style={{ display: "flex", gap: "8px" }}>
+                    <Input
+                        value={record.twentyFt}
+                        onChange={(e) => handleInputChange(record.key, "twentyFt", e.target.value)}
+                        placeholder="Enter amount"
+                    />
+                    <Select
+                        value={record.twentyFtCurrency}
+                        onChange={(value) => handleInputChange(record.key, "twentyFtCurrency", value)}
+                        style={{ width: 80 }}
+                    >
+                        {currencies.map((currency) => (
+                            <Option key={currency} value={currency}>
+                                {currency}
+                            </Option>
+                        ))}
+                    </Select>
+                </div>
+            ),
+        },
+        {
+            title: "40'",
+            dataIndex: "fortyFt",
+            key: "fortyFt",
+            render: (_, record) => (
+                <div style={{ display: "flex", gap: "8px" }}>
+                    <Input
+                        value={record.fortyFt}
+                        onChange={(e) => handleInputChange(record.key, "fortyFt", e.target.value)}
+                        placeholder="Enter amount"
+                    />
+                    <Select
+                        value={record.fortyFtCurrency}
+                        onChange={(value) => handleInputChange(record.key, "fortyFtCurrency", value)}
+                        style={{ width: 80 }}
+                    >
+                        {currencies.map((currency) => (
+                            <Option key={currency} value={currency}>
+                                {currency}
+                            </Option>
+                        ))}
+                    </Select>
+                </div>
+            ),
+        },
+        {
+            title: "40'hc",
+            dataIndex: "fortyFtHC",
+            key: "fortyFtHC",
+            render: (_, record) => (
+                <div style={{ display: "flex", gap: "8px" }}>
+                    <Input
+                        value={record.fortyFtHC}
+                        onChange={(e) => handleInputChange(record.key, "fortyFtHC", e.target.value)}
+                        placeholder="Enter amount"
+                    />
+                    <Select
+                        value={record.fortyFtHCCurrency}
+                        onChange={(value) => handleInputChange(record.key, "fortyFtHCCurrency", value)}
+                        style={{ width: 80 }}
+                    >
+                        {currencies.map((currency) => (
+                            <Option key={currency} value={currency}>
+                                {currency}
+                            </Option>
+                        ))}
+                    </Select>
+                </div>
+            ),
+        },
+        {
+            title: "Remark",
+            dataIndex: "remark",
+            key: "remark",
+            render: (_, record) => (
+                <Input
+                    value={record.remark}
+                    onChange={(e) => handleInputChange(record.key, "remark", e.target.value)}
+                    placeholder="Enter remark"
+                />
+            ),
+        },
+    ];
+    //new table design end
+
+    //new local charges
+    const [localChargesdataSource, setLocalChargesDataSource] = useState([
+        { key: "1", company: "*AMS", twentyFt: "", twentyFtCurrency: "USD", fortyFt: "", fortyFtCurrency: "USD", fortyFtHC: "", fortyFtHCCurrency: "USD", remark: "" },
+        { key: "2", company: "*B/L", twentyFt: "", twentyFtCurrency: "USD", fortyFt: "", fortyFtCurrency: "USD", fortyFtHC: "", fortyFtHCCurrency: "USD", remark: "" },
+        { key: "3", company: "*Surrendered B/L", twentyFt: "", twentyFtCurrency: "USD", fortyFt: "", fortyFtCurrency: "USD", fortyFtHC: "", fortyFtHCCurrency: "USD", remark: "" },
+        { key: "3", company: "*Customs clearance", twentyFt: "", twentyFtCurrency: "USD", fortyFt: "", fortyFtCurrency: "USD", fortyFtHC: "", fortyFtHCCurrency: "USD", remark: "" },
+        { key: "3", company: "*Transport", twentyFt: "", twentyFtCurrency: "USD", fortyFt: "", fortyFtCurrency: "USD", fortyFtHC: "", fortyFtHCCurrency: "USD", remark: "" },
+        { key: "3", company: "*Transport2", twentyFt: "", twentyFtCurrency: "USD", fortyFt: "", fortyFtCurrency: "USD", fortyFtHC: "", fortyFtHCCurrency: "USD", remark: "" },
+    ]);
+
+    const localChargesCurrencies = ["NOK", "NZD", "JPY", "SGD", "THB", "FJD", "USD", "RMB", "EUR", "HKD", "AUD", "MYR", "GBP", "CHF", "CNY"];
+
+    const localChargesColumns = [
+        {
+            title: "Local Charges",
+            dataIndex: "company",
+            key: "company",
+        },
+        {
+            title: "20'",
+            dataIndex: "twentyFt",
+            key: "twentyFt",
+            render: (_, record) => (
+                <div style={{ display: "flex", gap: "8px" }}>
+                    <Input
+                        value={record.twentyFt}
+                        onChange={(e) => handleInputChange(record.key, "twentyFt", e.target.value)}
+                        placeholder="Enter amount"
+                    />
+                    <Select
+                        value={record.twentyFtCurrency}
+                        onChange={(value) => handleInputChange(record.key, "twentyFtCurrency", value)}
+                        style={{ width: 80 }}
+                    >
+                        {localChargesCurrencies.map((currency) => (
+                            <Option key={currency} value={currency}>
+                                {currency}
+                            </Option>
+                        ))}
+                    </Select>
+                </div>
+            ),
+        },
+        {
+            title: "40'",
+            dataIndex: "fortyFt",
+            key: "fortyFt",
+            render: (_, record) => (
+                <div style={{ display: "flex", gap: "8px" }}>
+                    <Input
+                        value={record.fortyFt}
+                        onChange={(e) => handleInputChange(record.key, "fortyFt", e.target.value)}
+                        placeholder="Enter amount"
+                    />
+                    <Select
+                        value={record.fortyFtCurrency}
+                        onChange={(value) => handleInputChange(record.key, "fortyFtCurrency", value)}
+                        style={{ width: 80 }}
+                    >
+                        {currencies.map((currency) => (
+                            <Option key={currency} value={currency}>
+                                {currency}
+                            </Option>
+                        ))}
+                    </Select>
+                </div>
+            ),
+        },
+        {
+            title: "40'hc",
+            dataIndex: "fortyFtHC",
+            key: "fortyFtHC",
+            render: (_, record) => (
+                <div style={{ display: "flex", gap: "8px" }}>
+                    <Input
+                        value={record.fortyFtHC}
+                        onChange={(e) => handleInputChange(record.key, "fortyFtHC", e.target.value)}
+                        placeholder="Enter amount"
+                    />
+                    <Select
+                        value={record.fortyFtHCCurrency}
+                        onChange={(value) => handleInputChange(record.key, "fortyFtHCCurrency", value)}
+                        style={{ width: 80 }}
+                    >
+                        {currencies.map((currency) => (
+                            <Option key={currency} value={currency}>
+                                {currency}
+                            </Option>
+                        ))}
+                    </Select>
+                </div>
+            ),
+        },
+        {
+            title: "Remark",
+            dataIndex: "remark",
+            key: "remark",
+            render: (_, record) => (
+                <Input
+                    value={record.remark}
+                    onChange={(e) => handleInputChange(record.key, "remark", e.target.value)}
+                    placeholder="Enter remark"
+                />
+            ),
+        },
+    ];
+    //new local charges end
+
+
+    //new door delivery charges
+    const [doorDeliveryDataSource, setDoorDeliveryDataSource] = useState([
+        { key: "1", company: "*Advance Freight", twentyFt: "", twentyFtCurrency: "USD", fortyFt: "", fortyFtCurrency: "USD", fortyFtHC: "", fortyFtHCCurrency: "USD", remark: "" },
+        { key: "2", company: "*Alameda Corrdor", twentyFt: "", twentyFtCurrency: "USD", fortyFt: "", fortyFtCurrency: "USD", fortyFtHC: "", fortyFtHCCurrency: "USD", remark: "" },
+        { key: "3", company: "*Arbrtrary", twentyFt: "", twentyFtCurrency: "USD", fortyFt: "", fortyFtCurrency: "USD", fortyFtHC: "", fortyFtHCCurrency: "USD", remark: "" },
+
+    ]);
+
+    const doorDeliveryCurrencies = ["NOK", "NZD", "JPY", "SGD", "THB", "FJD", "USD", "RMB", "EUR", "HKD", "AUD", "MYR", "GBP", "CHF", "CNY"];
+
+    const doorDeliveryColumns = [
+        {
+            title: "Door Delivery Charge",
+            dataIndex: "company",
+            key: "company",
+        },
+        {
+            title: "20'",
+            dataIndex: "twentyFt",
+            key: "twentyFt",
+            render: (_, record) => (
+                <div style={{ display: "flex", gap: "8px" }}>
+                    <Input
+                        value={record.twentyFt}
+                        onChange={(e) => handleInputChange(record.key, "twentyFt", e.target.value)}
+                        placeholder="Enter amount"
+                    />
+                    <Select
+                        value={record.twentyFtCurrency}
+                        onChange={(value) => handleInputChange(record.key, "twentyFtCurrency", value)}
+                        style={{ width: 80 }}
+                    >
+                        {doorDeliveryCurrencies.map((currency) => (
+                            <Option key={currency} value={currency}>
+                                {currency}
+                            </Option>
+                        ))}
+                    </Select>
+                </div>
+            ),
+        },
+        {
+            title: "40'",
+            dataIndex: "fortyFt",
+            key: "fortyFt",
+            render: (_, record) => (
+                <div style={{ display: "flex", gap: "8px" }}>
+                    <Input
+                        value={record.fortyFt}
+                        onChange={(e) => handleInputChange(record.key, "fortyFt", e.target.value)}
+                        placeholder="Enter amount"
+                    />
+                    <Select
+                        value={record.fortyFtCurrency}
+                        onChange={(value) => handleInputChange(record.key, "fortyFtCurrency", value)}
+                        style={{ width: 80 }}
+                    >
+                        {currencies.map((currency) => (
+                            <Option key={currency} value={currency}>
+                                {currency}
+                            </Option>
+                        ))}
+                    </Select>
+                </div>
+            ),
+        },
+        {
+            title: "40'hc",
+            dataIndex: "fortyFtHC",
+            key: "fortyFtHC",
+            render: (_, record) => (
+                <div style={{ display: "flex", gap: "8px" }}>
+                    <Input
+                        value={record.fortyFtHC}
+                        onChange={(e) => handleInputChange(record.key, "fortyFtHC", e.target.value)}
+                        placeholder="Enter amount"
+                    />
+                    <Select
+                        value={record.fortyFtHCCurrency}
+                        onChange={(value) => handleInputChange(record.key, "fortyFtHCCurrency", value)}
+                        style={{ width: 80 }}
+                    >
+                        {currencies.map((currency) => (
+                            <Option key={currency} value={currency}>
+                                {currency}
+                            </Option>
+                        ))}
+                    </Select>
+                </div>
+            ),
+        },
+        {
+            title: "Remark",
+            dataIndex: "remark",
+            key: "remark",
+            render: (_, record) => (
+                <Input
+                    value={record.remark}
+                    onChange={(e) => handleInputChange(record.key, "remark", e.target.value)}
+                    placeholder="Enter remark"
+                />
+            ),
+        },
+    ];
+    //new door delivery charges end
+
+
+    //new custom and transport charges
+    const [customDataSource, setCustomDataSource] = useState([
+        { key: "1", company: "*CUSTOMS CLERANCE ", twentyFt: "", twentyFtCurrency: "USD", fortyFt: "", fortyFtCurrency: "USD", fortyFtHC: "", fortyFtHCCurrency: "USD", remark: "" },
+        { key: "2", company: "*TRANSPORT CHARGE ", twentyFt: "", twentyFtCurrency: "USD", fortyFt: "", fortyFtCurrency: "USD", fortyFtHC: "", fortyFtHCCurrency: "USD", remark: "" },
+        { key: "3", company: "*OTHER CHARGE", twentyFt: "", twentyFtCurrency: "USD", fortyFt: "", fortyFtCurrency: "USD", fortyFtHC: "", fortyFtHCCurrency: "USD", remark: "" },
+
+    ]);
+
+    const customCurrencies = ["NOK", "NZD", "JPY", "SGD", "THB", "FJD", "USD", "RMB", "EUR", "HKD", "AUD", "MYR", "GBP", "CHF", "CNY"];
+
+    const customColumns = [
+        {
+            title: "Custom & Transport Charge",
+            dataIndex: "company",
+            key: "company",
+        },
+        {
+            title: "20'",
+            dataIndex: "twentyFt",
+            key: "twentyFt",
+            render: (_, record) => (
+                <div style={{ display: "flex", gap: "8px" }}>
+                    <Input
+                        value={record.twentyFt}
+                        onChange={(e) => handleInputChange(record.key, "twentyFt", e.target.value)}
+                        placeholder="Enter amount"
+                    />
+                    <Select
+                        value={record.twentyFtCurrency}
+                        onChange={(value) => handleInputChange(record.key, "twentyFtCurrency", value)}
+                        style={{ width: 80 }}
+                    >
+                        {customCurrencies.map((currency) => (
+                            <Option key={currency} value={currency}>
+                                {currency}
+                            </Option>
+                        ))}
+                    </Select>
+                </div>
+            ),
+        },
+        {
+            title: "40'",
+            dataIndex: "fortyFt",
+            key: "fortyFt",
+            render: (_, record) => (
+                <div style={{ display: "flex", gap: "8px" }}>
+                    <Input
+                        value={record.fortyFt}
+                        onChange={(e) => handleInputChange(record.key, "fortyFt", e.target.value)}
+                        placeholder="Enter amount"
+                    />
+                    <Select
+                        value={record.fortyFtCurrency}
+                        onChange={(value) => handleInputChange(record.key, "fortyFtCurrency", value)}
+                        style={{ width: 80 }}
+                    >
+                        {currencies.map((currency) => (
+                            <Option key={currency} value={currency}>
+                                {currency}
+                            </Option>
+                        ))}
+                    </Select>
+                </div>
+            ),
+        },
+        {
+            title: "40'hc",
+            dataIndex: "fortyFtHC",
+            key: "fortyFtHC",
+            render: (_, record) => (
+                <div style={{ display: "flex", gap: "8px" }}>
+                    <Input
+                        value={record.fortyFtHC}
+                        onChange={(e) => handleInputChange(record.key, "fortyFtHC", e.target.value)}
+                        placeholder="Enter amount"
+                    />
+                    <Select
+                        value={record.fortyFtHCCurrency}
+                        onChange={(value) => handleInputChange(record.key, "fortyFtHCCurrency", value)}
+                        style={{ width: 80 }}
+                    >
+                        {currencies.map((currency) => (
+                            <Option key={currency} value={currency}>
+                                {currency}
+                            </Option>
+                        ))}
+                    </Select>
+                </div>
+            ),
+        },
+        {
+            title: "Remark",
+            dataIndex: "remark",
+            key: "remark",
+            render: (_, record) => (
+                <Input
+                    value={record.remark}
+                    onChange={(e) => handleInputChange(record.key, "remark", e.target.value)}
+                    placeholder="Enter remark"
+                />
+            ),
+        },
+    ];
+    //new custom and transport charges end
+    const handleInputChange = (key, field, value) => {
+        const newData = [...dataSource];
+        const index = newData.findIndex((item) => key === item.key);
+        if (index !== -1) {
+            newData[index][field] = value;
+            setDataSource(newData);
+        }
+    };
+
 
     return (
         <div className="p-8 bg-gray-50">
@@ -232,6 +670,8 @@ const QuotationForm3 = () => {
                         </Col>
                     </Row>
                     {/* SECTION 1 ENDS HERE       */}
+
+                    
                     <hr className="h-[3px] bg-[#2A388F] mb-5" />
 
                     <Row gutter={16}>
@@ -313,1708 +753,65 @@ const QuotationForm3 = () => {
                     </Row>
 
                     {/* Freight charges */}
-                    <Row gutter={16}>
-                        <Col span={4.8}>
-                            <p className="text-black bg-white text-left p-2 pb-0 rounded"><b>Frieght Charge(Container)</b></p>
-                            <p className='text-left pl-2'>OOCL</p>
-                            <p className='text-left pl-2'>KMTC</p>
-                            <p className='text-left pl-2'>ONE</p>
-                        </Col>
-
-                        {/* 20' column */}
-                        <Col span={4.8}>
-                            <p className="text-black bg-white text-left p-2 pb-0 rounded">
-                                <b>20'</b>
-                            </p>
-                            {/* 20' OOCL amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col className='mb-1'>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-                            {/* 20' KMTC amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col className='mb-1'>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-
-                            {/* 20' ONE amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-                        </Col>
-
-                        {/* 40' column */}
-                        <Col span={4.8}>
-                            <p className="text-black bg-white text-left p-2 pb-0 rounded">
-                                <b>40'</b>
-                            </p>
-                            {/* 40' OOCL amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col className='mb-1'>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-                            {/* 40' KMTC amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col className='mb-1'>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-
-                            {/* 40' ONE amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-                        </Col>
-
-                        {/* 40' hc */}
-                        <Col span={4.8}>
-                            <p className="text-black bg-white text-left p-2 pb-0 rounded">
-                                <b>40'hc</b>
-                            </p>
-                            {/* 20' OOCL amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col className='mb-1'>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-                            {/* 20' KMTC amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col className='mb-1'>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-
-                            {/* 20' ONE amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-                        </Col>
-
-                        {/* remark */}
-                        <Col span={4.8}>
-                            <p className="text-black bg-white text-left p-2 pb-0 rounded"><b>Remark</b></p>
-                            <p className='text-left pl-2'>Cut Off:Fri/Wed, ETD:Wed/Fri, T/T(Days):11</p>
-                            <p className='text-left pl-2'>Cut Off:Fri/Wed, ETD:Wed/Fri, T/T(Days):11</p>
-                            <p className='text-left pl-2'>Cut Off:Fri/Wed, ETD:Wed/Fri, T/T(Days):11</p>
-                        </Col>
+                    <Row gutter={[16, 16]} className="flex justify-center">
+                        <div className="overflow-auto w-full">
+                            <Table
+                                dataSource={dataSource}
+                                columns={freightChargesColumns}
+                                pagination={false}
+                                className="min-w-[600px] md:min-w-[800px] lg:min-w-[1000px] customTable"
+                                scroll={{ x: "max-content" }}
+                                bordered
+                            />
+                        </div>
                     </Row>
 
                     {/* Door Delivery charges */}
-                    <Row gutter={16}>
-                        <Col span={4.8}>
-                            <p className="text-black bg-white text-left p-2 pb-0 rounded"><b>Door Delivery Charges</b></p>
-                            <p className='text-left pl-2'>Advance Freight</p>
-                            <p className='text-left pl-2'>Alameda Corrdor</p>
-                            <p className='text-left pl-2'>Arbrtrary</p>
-                        </Col>
-
-                        {/* 20' column */}
-                        <Col span={4.8}>
-                            <p className="text-black bg-white text-left p-2 pb-0 rounded">
-                                <b>20'</b>
-                            </p>
-                            {/* 20' OOCL amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col className='mb-1'>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-                            {/* 20' KMTC amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col className='mb-1'>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-
-                            {/* 20' ONE amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-                        </Col>
-
-                        {/* 40' column */}
-                        <Col span={4.8}>
-                            <p className="text-black bg-white text-left p-2 pb-0 rounded">
-                                <b>40'</b>
-                            </p>
-                            {/* 40' OOCL amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col className='mb-1'>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-                            {/* 40' KMTC amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col className='mb-1'>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-
-                            {/* 40' ONE amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-                        </Col>
-
-                        {/* 40' hc */}
-                        <Col span={4.8}>
-                            <p className="text-black bg-white text-left p-2 pb-0 rounded">
-                                <b>40'hc</b>
-                            </p>
-                            {/* 20' OOCL amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col className='mb-1'>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-                            {/* 20' KMTC amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col className='mb-1'>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-
-                            {/* 20' ONE amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-                        </Col>
-
-                        {/* remark */}
-                        <Col span={4.8}>
-                            <p className="text-black bg-white text-left p-2 pb-0 rounded"><b>Remark</b></p>
-                            <p className='text-left pl-2'>Cut Off:Fri/Wed, ETD:Wed/Fri, T/T(Days):11</p>
-                            <p className='text-left pl-2'>Cut Off:Fri/Wed, ETD:Wed/Fri, T/T(Days):11</p>
-                            <p className='text-left pl-2'>Cut Off:Fri/Wed, ETD:Wed/Fri, T/T(Days):11</p>
-                        </Col>
+                    <Row gutter={[16, 16]} className="flex justify-center">
+                        <div className="overflow-auto w-full">
+                            <Table
+                                dataSource={doorDeliveryDataSource}
+                                columns={doorDeliveryColumns}
+                                pagination={false}
+                                className="min-w-[600px] md:min-w-[800px] lg:min-w-[1000px] customTable"
+                                scroll={{ x: "max-content" }}
+                                bordered
+                            />
+                        </div>
                     </Row>
 
                     {/* Local Charges */}
-                    <Row gutter={16}>
+                    <Row gutter={[16, 16]} className="flex justify-center">
                         <Col span={24}>
-                            <h2 id='local-charges-title' className="text-left text-xl font-bold text-[#2A388F] mb-4 mt-4 bg-[#1A2067]">Local Charge</h2>
+                            <h2 id='local-charges-title' className="text-left text-xl font-bold text-[#2A388F] mb-0 mt-4 bg-[#1A2067]">Local Charge</h2>
                         </Col>
-                        <Col span={4.8}>
-                            <p className="text-black bg-white text-left p-2 pb-0 rounded"><b style={{ color: 'white' }}>-</b></p>
-                            <p className='text-left pl-2'>*AMS</p>
-                            <p className='text-left pl-2'>*B/L</p>
-                            <p className='text-left pl-2'>*Surrendered B/L</p>
-                            <p className='text-left pl-2'>*Customs clearance</p>
-                            <p className='text-left pl-2'>*Transport</p>
-                            <p className='text-left pl-2'>*Transport</p>
-                        </Col>
-
-                        {/* 20' column */}
-                        <Col span={4.8}>
-                            <p className="text-black bg-white text-left p-2 pb-0 rounded">
-                                <b>20'</b>
-                            </p>
-                            {/* 20' OOCL amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col className='mb-1'>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-                            {/* 20' KMTC amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col className='mb-1'>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-
-                            {/* 20' ONE amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-
-                            <Row gutter={8} align="middle">
-                                <Col>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-
-                            <Row gutter={8} align="middle">
-                                <Col>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-
-                            <Row gutter={8} align="middle">
-                                <Col>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-                        </Col>
-
-                        {/* 40' column */}
-                        <Col span={4.8}>
-                            <p className="text-black bg-white text-left p-2 pb-0 rounded">
-                                <b>40'</b>
-                            </p>
-                            {/* 40' OOCL amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col className='mb-1'>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-                            {/* 40' KMTC amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col className='mb-1'>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-
-                            {/* 40' ONE amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-
-                            <Row gutter={8} align="middle">
-                                <Col>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-
-                            <Row gutter={8} align="middle">
-                                <Col>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-
-                            <Row gutter={8} align="middle">
-                                <Col>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-                        </Col>
-
-                        {/* 40' hc */}
-                        <Col span={4.8}>
-                            <p className="text-black bg-white text-left p-2 pb-0 rounded">
-                                <b>40'hc</b>
-                            </p>
-                            {/* 20' OOCL amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col className='mb-1'>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-                            {/* 20' KMTC amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col className='mb-1'>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-
-                            {/* 20' ONE amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-
-                            <Row gutter={8} align="middle">
-                                <Col>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-
-                            <Row gutter={8} align="middle">
-                                <Col>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-
-                            <Row gutter={8} align="middle">
-                                <Col>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-                        </Col>
-
-                        {/* remark */}
-                        <Col span={4.8}>
-                            <p className="text-black bg-white text-left p-2 pb-0 rounded"><b>Remark</b></p>
-                            <p className='text-left pl-2'>Cut Off:Fri/Wed, ETD:Wed/Fri, T/T(Days):11</p>
-                            <p className='text-left pl-2'>Cut Off:Fri/Wed, ETD:Wed/Fri, T/T(Days):11</p>
-                            <p className='text-left pl-2'>Cut Off:Fri/Wed, ETD:Wed/Fri, T/T(Days):11</p>
-                            <p className='text-left pl-2'>Cut Off:Fri/Wed, ETD:Wed/Fri, T/T(Days):11</p>
-                            <p className='text-left pl-2'>Cut Off:Fri/Wed, ETD:Wed/Fri, T/T(Days):11</p>
-                            <p className='text-left pl-2'>Cut Off:Fri/Wed, ETD:Wed/Fri, T/T(Days):11</p>
-                        </Col>
-
+                        <div className="overflow-auto w-full">
+                            <Table
+                                dataSource={localChargesdataSource}
+                                columns={localChargesColumns}
+                                pagination={false}
+                                className="min-w-[600px] md:min-w-[800px] lg:min-w-[1000px] customTable"
+                                scroll={{ x: "max-content" }}
+                                bordered
+                            />
+                        </div>
                     </Row>
 
                     {/* Custom & Transport Charges */}
-                    <Row gutter={16}>
+                    <Row gutter={[16, 16]} className="flex justify-center">
                         <Col span={24}>
-                            <h2 id='local-charges-title' className="text-left text-xl font-bold text-[#2A388F] mb-4 mt-4 bg-[#1A2067]">Custom & Transport</h2>
+                            <h2 id='local-charges-title' className="text-left text-xl font-bold text-[#2A388F] mb-0 mt-4 bg-[#1A2067]">Custom & Transport</h2>
                         </Col>
-                        <Col span={4.8}>
-                            <p className="text-black bg-white text-left p-2 pb-0 rounded"><b style={{ color: 'white' }}>-</b></p>
-                            <p className='text-left pl-2'>*CUSTOMS CLERANCE </p>
-                            <p className='text-left pl-2'>*TRANSPORT CHARGE </p>
-                            <p className='text-left pl-2'>*OTHER CHARGE</p>
-
-                        </Col>
-
-                        {/* 20' column */}
-                        <Col span={4.8}>
-                            <p className="text-black bg-white text-left p-2 pb-0 rounded">
-                                <b>20'</b>
-                            </p>
-                            {/* 20' OOCL amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col className='mb-1'>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-                            {/* 20' KMTC amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col className='mb-1'>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-
-                            {/* 20' ONE amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col>
-                                    <p>As per receipt</p>
-                                </Col>
-
-
-                            </Row>
-
-
-
-                        </Col>
-
-                        {/* 40' column */}
-                        <Col span={4.8}>
-                            <p className="text-black bg-white text-left p-2 pb-0 rounded">
-                                <b>40'</b>
-                            </p>
-                            {/* 40' OOCL amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col className='mb-1'>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-                            {/* 40' KMTC amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col className='mb-1'>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-
-                            {/* 40' ONE amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col>
-                                    <Col>
-                                        <p>As per receipt</p>
-                                    </Col>
-                                </Col>
-
-
-                            </Row>
-
-
-                        </Col>
-
-                        {/* 40' hc */}
-                        <Col span={4.8}>
-                            <p className="text-black bg-white text-left p-2 pb-0 rounded">
-                                <b>40'hc</b>
-                            </p>
-                            {/* 20' OOCL amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col className='mb-1'>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-                            {/* 20' KMTC amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col className='mb-1'>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
-
-                                </Col>
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
-                            </Row>
-
-                            {/* 20' ONE amount */}
-
-                            <Row gutter={8} align="middle">
-                                <Col>
-                                    <p>As per receipt</p>
-                                </Col>
-
-                                <Col>
-
-                                </Col>
-                            </Row>
-
-
-
-
-
-
-                        </Col>
-
-                        {/* remark */}
-                        <Col span={4.8}>
-                            <p className="text-black bg-white text-left p-2 pb-0 rounded"><b>Remark</b></p>
-                            <p className='text-left pl-2'>Cut Off:Fri/Wed, ETD:Wed/Fri, T/T(Days):11</p>
-                            <p className='text-left pl-2'>Cut Off:Fri/Wed, ETD:Wed/Fri, T/T(Days):11</p>
-                            <p className='text-left pl-2'>Cut Off:Fri/Wed, ETD:Wed/Fri, T/T(Days):11</p>
-                        </Col>
-
+                        <div className="overflow-auto w-full">
+                            <Table
+                                dataSource={customDataSource}
+                                columns={customColumns}
+                                pagination={false}
+                                className="min-w-[600px] md:min-w-[800px] lg:min-w-[1000px] customTable"
+                                scroll={{ x: "max-content" }}
+                                bordered
+                            />
+                        </div>
                     </Row>
 
                     {/*Section 3: Conditions and Sign*/}
@@ -2094,6 +891,7 @@ const QuotationForm3 = () => {
                     <Row justify="center" gutter={16}>
                         <Col>
                             <button
+                            id='saveButton'
                                 className="bg-[#ED1C24] mt-5 text-white text-center px-6 py-3 rounded-md"
                                 style={{
                                     fontSize: "16px",
