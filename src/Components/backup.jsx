@@ -17,6 +17,31 @@ const companyOptions = [
     { value: "Celestica (Thailand) Limited" },
 ];
 
+//port auto complete
+const portsOptions = [
+    //use API to list the values here
+    { value: "Port of Shanghai, China" },
+    { value: "Port of Singapore, Singapore" },
+    { value: "Port of Ningbo-Zhoushan, China" },
+    { value: "Port of Shenzhen, China" },
+    { value: "Port of Guangzhou, China" },
+    { value: "Port of Busan, South Korea" },
+    { value: "Port of Qingdao, China" },
+    { value: "Port of Hong Kong, China" },
+    { value: "Port of Tianjin, China" },
+    { value: "Port of Jebel Ali, United Arab Emirates" },
+    { value: "Port of Rotterdam, Netherlands" },
+    { value: "Port of Klang, Malaysia" },
+    { value: "Port of Antwerp, Belgium" },
+    { value: "Port of Xiamen, China" },
+    { value: "Port of Kaohsiung, Taiwan" },
+    { value: "Port of Dalian, China" },
+    { value: "Port of Los Angeles, United States" },
+    { value: "Port of Hamburg, Germany" },
+    { value: "Port of Tanjung Pelepas, Malaysia" },
+    { value: "Port of Laem Chabang, Thailand" }
+];
+
 const QuotationForm3 = () => {
     const [form] = Form.useForm();
 
@@ -97,7 +122,7 @@ const QuotationForm3 = () => {
 
                             <div style={{ display: 'flex', justifyContent: 'space-between' }} className='pb-6'>
                                 <p>Date: 26/01/22</p>
-                                <p>Date: 31/01/22</p>
+                                <p>Validity Peroid: 31/01/22</p>
                             </div>
                         </Col>
                     </Row>
@@ -105,6 +130,7 @@ const QuotationForm3 = () => {
 
 
                     {/* Company and other details - modified */}
+                    {/* SECTION 1 STARTS HERE       */}
                     <Row gutter={16}>
                         <Col span={12}>
                             <Title level={4} id='customer-details-title' className="bg-[#2A388F] p-2 rounded text-white">
@@ -205,6 +231,7 @@ const QuotationForm3 = () => {
                             </Form.Item>
                         </Col>
                     </Row>
+                    {/* SECTION 1 ENDS HERE       */}
                     <hr className="h-[3px] bg-[#2A388F] mb-5" />
 
                     <Row gutter={16}>
@@ -219,12 +246,12 @@ const QuotationForm3 = () => {
                             <Form.Item
                                 label="Port of loading"
                                 name="companyName"
-                                rules={[{ required: true, message: 'Please enter the company name!' }]}
+                                rules={[{ required: true, message: 'Please enter the port of loading!' }]}
                             >
                                 <AutoComplete
 
-                                    options={companyOptions}
-                                    placeholder="try to type `company name`"
+                                    options={portsOptions}
+                                    placeholder="try to type `port name`"
                                     filterOption={(inputValue, option) =>
                                         option &&
                                         option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
@@ -235,12 +262,12 @@ const QuotationForm3 = () => {
                             <Form.Item
                                 label="Place of loading"
                                 name="companyName"
-                                rules={[{ required: true, message: 'Please enter the company name!' }]}
+                                rules={[{ required: true, message: 'Please enter the port of loading!' }]}
                             >
                                 <AutoComplete
 
-                                    options={companyOptions}
-                                    placeholder="try to type `company name`"
+                                    options={portsOptions}
+                                    placeholder="try to type `place name`"
                                     filterOption={(inputValue, option) =>
                                         option &&
                                         option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
@@ -254,12 +281,12 @@ const QuotationForm3 = () => {
                             <Form.Item
                                 label="Port of Discharge"
                                 name="companyName"
-                                rules={[{ required: true, message: 'Please enter the company name!' }]}
+                                rules={[{ required: true, message: 'Please enter the port of discharge!' }]}
                             >
                                 <AutoComplete
 
                                     options={companyOptions}
-                                    placeholder="try to type `company name`"
+                                    placeholder="try to type `port name`"
                                     filterOption={(inputValue, option) =>
                                         option &&
                                         option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
@@ -268,14 +295,14 @@ const QuotationForm3 = () => {
                             </Form.Item>
 
                             <Form.Item
-                                label="Port of Delivery"
+                                label="Place of Delivery"
                                 name="companyName"
-                                rules={[{ required: true, message: 'Please enter the company name!' }]}
+                                rules={[{ required: true, message: 'Please enter the place of delivery!' }]}
                             >
                                 <AutoComplete
 
-                                    options={companyOptions}
-                                    placeholder="try to type `company name`"
+                                    options={portsOptions}
+                                    placeholder="try to type `port name`"
                                     filterOption={(inputValue, option) =>
                                         option &&
                                         option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
@@ -1003,16 +1030,15 @@ const QuotationForm3 = () => {
                             <p className='text-left pl-2'>Cut Off:Fri/Wed, ETD:Wed/Fri, T/T(Days):11</p>
                             <p className='text-left pl-2'>Cut Off:Fri/Wed, ETD:Wed/Fri, T/T(Days):11</p>
                         </Col>
-
                     </Row>
 
                     {/* Local Charges */}
                     <Row gutter={16}>
                         <Col span={24}>
-                        <h2 id='local-charges-title' className="text-left text-xl font-bold text-[#2A388F] mb-4 mt-4 bg-[#1A2067]">Local Charge</h2>
+                            <h2 id='local-charges-title' className="text-left text-xl font-bold text-[#2A388F] mb-4 mt-4 bg-[#1A2067]">Local Charge</h2>
                         </Col>
                         <Col span={4.8}>
-                            <p className="text-black bg-white text-left p-2 pb-0 rounded"><b style={{color: 'white'}}>-</b></p>
+                            <p className="text-black bg-white text-left p-2 pb-0 rounded"><b style={{ color: 'white' }}>-</b></p>
                             <p className='text-left pl-2'>*AMS</p>
                             <p className='text-left pl-2'>*B/L</p>
                             <p className='text-left pl-2'>*Surrendered B/L</p>
@@ -1678,20 +1704,30 @@ const QuotationForm3 = () => {
                             </Row>
                         </Col>
 
+                        {/* remark */}
+                        <Col span={4.8}>
+                            <p className="text-black bg-white text-left p-2 pb-0 rounded"><b>Remark</b></p>
+                            <p className='text-left pl-2'>Cut Off:Fri/Wed, ETD:Wed/Fri, T/T(Days):11</p>
+                            <p className='text-left pl-2'>Cut Off:Fri/Wed, ETD:Wed/Fri, T/T(Days):11</p>
+                            <p className='text-left pl-2'>Cut Off:Fri/Wed, ETD:Wed/Fri, T/T(Days):11</p>
+                            <p className='text-left pl-2'>Cut Off:Fri/Wed, ETD:Wed/Fri, T/T(Days):11</p>
+                            <p className='text-left pl-2'>Cut Off:Fri/Wed, ETD:Wed/Fri, T/T(Days):11</p>
+                            <p className='text-left pl-2'>Cut Off:Fri/Wed, ETD:Wed/Fri, T/T(Days):11</p>
+                        </Col>
 
                     </Row>
 
                     {/* Custom & Transport Charges */}
                     <Row gutter={16}>
                         <Col span={24}>
-                        <h2 id='local-charges-title' className="text-left text-xl font-bold text-[#2A388F] mb-4 mt-4 bg-[#1A2067]">Custom & Transport</h2>
+                            <h2 id='local-charges-title' className="text-left text-xl font-bold text-[#2A388F] mb-4 mt-4 bg-[#1A2067]">Custom & Transport</h2>
                         </Col>
                         <Col span={4.8}>
-                            <p className="text-black bg-white text-left p-2 pb-0 rounded"><b style={{color: 'white'}}>-</b></p>
+                            <p className="text-black bg-white text-left p-2 pb-0 rounded"><b style={{ color: 'white' }}>-</b></p>
                             <p className='text-left pl-2'>*CUSTOMS CLERANCE </p>
                             <p className='text-left pl-2'>*TRANSPORT CHARGE </p>
                             <p className='text-left pl-2'>*OTHER CHARGE</p>
-                         
+
                         </Col>
 
                         {/* 20' column */}
@@ -1774,40 +1810,14 @@ const QuotationForm3 = () => {
 
                             <Row gutter={8} align="middle">
                                 <Col>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
+                                    <p>As per receipt</p>
                                 </Col>
 
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
+
                             </Row>
 
-                            
+
+
                         </Col>
 
                         {/* 40' column */}
@@ -1890,40 +1900,15 @@ const QuotationForm3 = () => {
 
                             <Row gutter={8} align="middle">
                                 <Col>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
+                                    <Col>
+                                        <p>As per receipt</p>
+                                    </Col>
                                 </Col>
 
-                                <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
-                                </Col>
+
                             </Row>
 
-                           
+
                         </Col>
 
                         {/* 40' hc */}
@@ -1976,6 +1961,7 @@ const QuotationForm3 = () => {
                                         placeholder="Enter amount"
                                         style={{ width: 100 }}
                                     />
+
                                 </Col>
                                 <Col>
                                     <Select
@@ -2006,48 +1992,120 @@ const QuotationForm3 = () => {
 
                             <Row gutter={8} align="middle">
                                 <Col>
-                                    <Input
-                                        value={amount}
-                                        onChange={handleAmountChange}
-                                        placeholder="Enter amount"
-                                        style={{ width: 100 }}
-                                    />
+                                    <p>As per receipt</p>
                                 </Col>
 
                                 <Col>
-                                    <Select
-                                        defaultValue={currency}
-                                        onChange={handleCurrencyChange}
-                                        style={{ width: 70 }}
-                                    >
-                                        <Option value="NOK">NOK</Option>
-                                        <Option value="NZD">NZD</Option>
-                                        <Option value="JPY">JPY</Option>
-                                        <Option value="SGD">SGD</Option>
-                                        <Option value="THB">THB</Option>
-                                        <Option value="FJD">FJD</Option>
-                                        <Option value="USD">USD</Option>
-                                        <Option value="RMB">RMB</Option>
-                                        <Option value="EUR">EUR</Option>
-                                        <Option value="HKD">HKD</Option>
-                                        <Option value="AUD">AUD</Option>
-                                        <Option value="MYR">MYR</Option>
-                                        <Option value="GBP">GBP</Option>
-                                        <Option value="CHF">CHF</Option>
-                                        <Option value="CNY">CNY</Option>
-                                    </Select>
+
                                 </Col>
                             </Row>
 
-                           
 
-                           
 
-                            
+
+
+
                         </Col>
 
+                        {/* remark */}
+                        <Col span={4.8}>
+                            <p className="text-black bg-white text-left p-2 pb-0 rounded"><b>Remark</b></p>
+                            <p className='text-left pl-2'>Cut Off:Fri/Wed, ETD:Wed/Fri, T/T(Days):11</p>
+                            <p className='text-left pl-2'>Cut Off:Fri/Wed, ETD:Wed/Fri, T/T(Days):11</p>
+                            <p className='text-left pl-2'>Cut Off:Fri/Wed, ETD:Wed/Fri, T/T(Days):11</p>
+                        </Col>
 
                     </Row>
+
+                    {/*Section 3: Conditions and Sign*/}
+                    <div className="bg-white p-6 rounded shadow-md mt-6">
+                        <h3 className="text-lg font-bold text-[#2A388F] mb-4">
+                            CONDITIONS :
+                        </h3>
+                        <ul
+                            className="text-sm mb-4 list-disc pl-6"
+                            style={{ textAlign: "left" }}
+                        >
+                            <li>All above charges are exclusive of Insurance, Courier fee.</li>
+                            <li>
+                                All above charges are subject to change local charges by shipping
+                                line.
+                            </li>
+                            <li>Applicable to general commercial cargo only.</li>
+                            <li>All above charges are subject to Extra work at cost.</li>
+                            <li>All above charges are subject to VAT 7%.</li>
+                        </ul>
+                        <h3 className="text-lg font-bold text-[#2A388F] mb-4">
+                            Term & Condition (Freight, Local charge, Customs clearance,
+                            Transportation)
+                        </h3>
+                        <div className="text-sm" style={{ textAlign: "left" }}>
+                            <p>
+                                <strong>Credit Term:</strong> 30 Days
+                            </p>
+                            <p>
+                                <strong>Billing Acceptance:</strong> Payment :-
+                            </p>
+                            <p>
+                                <strong>Term & Condition (Import duty & Tax)</strong>
+                            </p>
+                            <p>
+                                <strong>Credit Term:</strong> -
+                            </p>
+                            <p>
+                                <strong>Limited Amount:</strong> -
+                            </p>
+                            <p>
+                                <strong>Credit Line Limit:</strong> -
+                            </p>
+                            <p>
+                                <strong>Weekly Statement:</strong> -
+                            </p>
+                            <p>
+                                <strong>Payment:</strong> -
+                            </p>
+                        </div>
+                        <p className="mt-4 text-sm">
+                            If you accept our quotation purpose, would you please sign your
+                            signature for approval and send us back accordingly.
+                        </p>
+                        <p className="mt-6 font-bold">Thanks and best regards,</p>
+                        <div className="mt-6">
+                            <p className="font-bold">WICE Logistics Public Company Limited</p>
+                            <div className="mt-4">
+                                {/* <label
+                htmlFor="digital-signature"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Digital Signature
+              </label> */}
+                                <div className="border border-gray-300 rounded-md mt-2 w-full h-24 bg-gray-100 flex items-center justify-center">
+                                    <p className="text-gray-400">Sign here...</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="mt-6">
+                            <p className="font-bold">Alliance Laundry (Thailand) Co., Ltd.</p>
+                            <div className="border border-gray-300 rounded-md mt-2 w-full h-24 bg-gray-100 flex items-center justify-center">
+                                <p className="text-gray-400">Sign here...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <Row justify="center" gutter={16}>
+                        <Col>
+                            <button
+                                className="bg-[#ED1C24] mt-5 text-white text-center px-6 py-3 rounded-md"
+                                style={{
+                                    fontSize: "16px",
+                                    fontWeight: "bold",
+                                    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                                }}
+                            >
+                                Save & Print
+                            </button>
+                        </Col>
+                    </Row>
+
                 </Form>
             </div>
         </div>
