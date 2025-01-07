@@ -546,7 +546,7 @@ const Test2 = () => {
 
     const renderSeaFreightChargeAccordion = (id) => (
         <Collapse defaultActiveKey={['1']} className="mb-4">
-            <Panel id='sea-freight-header' header={`Sea Freight Export Charge - Route ${id}`} key="1">
+            <Panel id='sea-freight-header' header={`Sea Freight Export Charge: Port-Pair ${id}`} key="1">
                 <Collapse>
                     <Panel id='sea-freight-subheader' header="Freight Charge" key="freight">
                         {/* Freight Charge Content */}
