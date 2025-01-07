@@ -373,7 +373,7 @@ const Test2 = () => {
                                 {menu}
                                 <div style={{ display: "flex", padding: 8 }}>
                                     <Input
-                                        placeholder="Add new company"
+                                        placeholder="Add new Door Delivery Charge"
                                         onPressEnter={(e) => {
                                             const newCompany = e.target.value.trim();
                                             if (newCompany) {
