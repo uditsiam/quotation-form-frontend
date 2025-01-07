@@ -1,37 +1,37 @@
 const FreightCharge = () => {
 
-    //done - Freight Charge Data Source and State
-    const [dataSource, setDataSource] = useState([
-        {
-            key: "1",
-            company: ["OOCL", "KMTC", "ONE"],
-            twentyFt: "",
-            twentyFtCurrency: "USD",
-            fortyFt: "",
-            fortyFtCurrency: "USD",
-            fortyFtHC: "",
-            fortyFtHCCurrency: "USD",
-            remark: "",
-        },
+    //done - Custom Charge Data Source and State
+   const [customChargesdataSource, setCustomChargesDataSource] = useState([
+    {
+        key: "1",
+        company: ["*CUSTOMS CLERANCE", "*TRANSPORT CHARGE", "*OTHER CHARGE"],
+        twentyFt: "",
+        twentyFtCurrency: "USD",
+        fortyFt: "",
+        fortyFtCurrency: "USD",
+        fortyFtHC: "",
+        fortyFtHCCurrency: "USD",
+        remark: "",
+    },
+       ]);
+
+
+    //done - Custom Charge Options State
+    const [customChargeOption, setCustomChargesOption] = useState([
+        "*CUSTOMS CLERANCE",
+        "*TRANSPORT CHARGE",
+        "*OTHER CHARGE"
     ]);
 
-
-    //done - Freight Charge Options State
-    const [freightChargeOption, setFreightChargeOption] = useState([
-        "OOCL",
-        "KMTC",
-        "ONE",
-    ]);
-
-    //done - Freight Charge Currencies
-    const freightChargeCurrencies = [
+    //done - Custom Charge Currencies
+    const customChargeCurrencies = [
         "NOK", "NZD", "JPY", "SGD", "THB", "FJD", "USD", "RMB", "EUR", "HKD", "AUD", "MYR", "GBP", "CHF", "CNY",
     ];
  
-    //done - handle Freight Charge Add New Row
-    const handleFreightChargesNewRow = () => {
+    //done - handle Custom Charge Add New Row
+    const handleCustomChargesNewRow = () => {
         const newRow = {
-            key: (dataSource.length + 1).toString(),
+            key: (customChargesdataSource.length + 1).toString(),
             company: [],
             twentyFt: "",
             twentyFtCurrency: "USD",
@@ -41,52 +41,50 @@ const FreightCharge = () => {
             fortyFtHCCurrency: "USD",
             remark: "",
         };
-        setDataSource([...dataSource, newRow]);
+        setCustomChargesDataSource([...customChargesdataSource, newRow]);
     };
 
 
-    //done - handle Freight Charge Options
-    const handleAddFreightChargesOptions = (newCompany) => {
-        if (newCompany && !freightChargeOption.includes(newCompany)) {
-            setFreightChargeOption((prev) => [...prev, newCompany]);
+    //done - handle Custom Charge Options
+    const handleAddCustomChargesOptions = (newCompany) => {
+        if (newCompany && !customChargeOption.includes(newCompany)) {
+            setCustomChargesOption((prev) => [...prev, newCompany]);
         }
     };
 
 
-    //done - handle Freight Charge Row Delete
-    const handleFreightChargeRowDelete = (key) => {
+    //done - handle Custom Charge Row Delete
+    const handleCustomChargeRowDelete = (key) => {
         setDataSource((prevData) => prevData.filter((item) => item.key !== key));
     };
 
 
-   
-
-    //done - Freight Charge Columns
-    const freightChargesColumns = [
+    //done - Custom Charge Columns
+    const customChargesColumns = [
         {
-            title: "Freight Charge (Container)",
+            title: "Custom Charge",
             dataIndex: "company",
             key: "company",
             render: (_, record, index) => (
-                <Form.Item
+                <Form.Item style={{width: 80}}
                     name={["data", index, "company"]}
                     initialValue={record.company}
                     rules={[{ required: true, message: "Please select a company" }]}
                 >
                     <Select
-                        mode="multiple"
+                        // mode="multiple"
                         placeholder="Select or Add Company"
                         showArrow
                         dropdownRender={(menu) => (
                             <>
                                 {menu}
                                 <div style={{ display: "flex", padding: 8 }}>
-                                    <Input
+                                    <Input style={{width: 80}}
                                         placeholder="Add new company"
                                         onPressEnter={(e) => {
                                             const newCompany = e.target.value.trim();
                                             if (newCompany) {
-                                                handleAddFreightChargesOptions(newCompany);
+                                                handleAddCustomChargesOptions(newCompany);
                                                 e.target.value = "";
                                             }
                                         }}
@@ -97,7 +95,7 @@ const FreightCharge = () => {
                         )}
                         style={{ width: "100%" }}
                     >
-                        {freightChargeOption.map((company) => (
+                        {customChargeOption.map((company) => (
                             <Option key={company} value={company}>
                                 {company}
                             </Option>
@@ -111,7 +109,7 @@ const FreightCharge = () => {
             dataIndex: "twentyFt",
             key: "twentyFt",
             render: (_, record, index) => (
-                <Form.Item
+                <Form.Item style={{width: 80}}
                     name={["data", index, "twentyFt"]}
                     initialValue={record.twentyFt}
                 >
@@ -124,12 +122,12 @@ const FreightCharge = () => {
             dataIndex: "twentyFtCurrency",
             key: "twentyFtCurrency",
             render: (_, record, index) => (
-                <Form.Item
+                <Form.Item style={{width: 80}}
                     name={["data", index, "twentyFtCurrency"]}
                     initialValue={record.twentyFtCurrency}
                 >
                     <Select style={{ width: "100%" }}>
-                        {freightChargeCurrencies.map((currency) => (
+                        {customChargeCurrencies.map((currency) => (
                             <Option key={currency} value={currency}>
                                 {currency}
                             </Option>
@@ -143,7 +141,7 @@ const FreightCharge = () => {
             dataIndex: "fortyFt",
             key: "fortyFt",
             render: (_, record, index) => (
-                <Form.Item
+                <Form.Item style={{width: 80}}
                     name={["data", index, "fortyFt"]}
                     initialValue={record.fortyFt}
                 >
@@ -156,12 +154,12 @@ const FreightCharge = () => {
             dataIndex: "fortyFtCurrency",
             key: "fortyFtCurrency",
             render: (_, record, index) => (
-                <Form.Item
+                <Form.Item style={{width: 80}}
                     name={["data", index, "fortyFtCurrency"]}
                     initialValue={record.fortyFtCurrency}
                 >
                     <Select style={{ width: "100%" }}>
-                        {freightChargeCurrencies.map((currency) => (
+                        {customChargeCurrencies.map((currency) => (
                             <Option key={currency} value={currency}>
                                 {currency}
                             </Option>
@@ -175,7 +173,7 @@ const FreightCharge = () => {
             dataIndex: "fortyFtHC",
             key: "fortyFtHC",
             render: (_, record, index) => (
-                <Form.Item
+                <Form.Item style={{width: 80}}
                     name={["data", index, "fortyFtHC"]}
                     initialValue={record.fortyFtHC}
                 >
@@ -188,12 +186,12 @@ const FreightCharge = () => {
             dataIndex: "fortyFtHCCurrency",
             key: "fortyFtHCCurrency",
             render: (_, record, index) => (
-                <Form.Item
+                <Form.Item style={{width: 80}}
                     name={["data", index, "fortyFtHCCurrency"]}
                     initialValue={record.fortyFtHCCurrency}
                 >
                     <Select style={{ width: "100%" }}>
-                        {freightChargeCurrencies.map((currency) => (
+                        {customChargeCurrencies.map((currency) => (
                             <Option key={currency} value={currency}>
                                 {currency}
                             </Option>
@@ -207,7 +205,7 @@ const FreightCharge = () => {
             dataIndex: "remark",
             key: "remark",
             render: (_, record, index) => (
-                <Form.Item
+                <Form.Item style={{width: 80}}
                     name={["data", index, "remark"]}
                     initialValue={record.remark}
                 >
@@ -220,9 +218,10 @@ const FreightCharge = () => {
             key: "action",
             render: (_, record) => (
                 <Button
+                id='delete-btn-4'
                     type="danger"
                     icon={<DeleteOutlined />}
-                    onClick={() => handleDoorDeliveryRowDelete(record.key)}
+                    onClick={() => handleCustomChargeRowDelete(record.key)}
                 >
                     Delete
                 </Button>
@@ -235,26 +234,28 @@ const FreightCharge = () => {
         const updatedDataSource = dataSource.map(item =>
             item.key === key ? { ...item, [field]: value } : item
         );
-        setDataSource(updatedDataSource);
+        setCustomChargesDataSource(updatedDataSource);
     };
 
     return (
         <div>
-            {/* Freight Charge UI Start */}
+            {/* Custom Charge UI Start */}
             <div className="overflow-auto w-full">
                 <Table
-                    dataSource={dataSource}
-                    columns={freightChargesColumns}
+                    dataSource={customChargesdataSource}
+                    columns={customChargesColumns}
                     pagination={false}
                     className="min-w-[600px] md:min-w-[800px] lg:min-w-[1000px] customTable"
                     scroll={{ x: "max-content" }}
                     bordered
                 />
             </div>
-            <Button type="primary" onClick={handleFreightChargesNewRow} className="mt-4">
+            <Button
+            id='add-row-btn-4'
+             type="primary" onClick={handleCustomChargesNewRow} className="mt-4">
                 Add Row
             </Button>
-            {/* Freight Charge UI End */}
+            {/* Custom Charge UI End */}
         </div>
     );
 };

@@ -81,8 +81,8 @@ const Test2 = () => {
 
 
     //Freight Charge Code Section Starts
-     //done - Freight Charge Data Source and State
-     const [dataSource, setDataSource] = useState([
+    //done - Freight Charge Data Source and State
+    const [dataSource, setDataSource] = useState([
         {
             key: "1",
             company: ["OOCL", "KMTC", "ONE"],
@@ -108,7 +108,7 @@ const Test2 = () => {
     const freightChargeCurrencies = [
         "NOK", "NZD", "JPY", "SGD", "THB", "FJD", "USD", "RMB", "EUR", "HKD", "AUD", "MYR", "GBP", "CHF", "CNY",
     ];
- 
+
     //done - handle Freight Charge Add New Row
     const handleFreightChargesNewRow = () => {
         const newRow = {
@@ -140,7 +140,7 @@ const Test2 = () => {
     };
 
 
-   
+
 
     //done - Freight Charge Columns
     const freightChargesColumns = [
@@ -192,7 +192,7 @@ const Test2 = () => {
             dataIndex: "twentyFt",
             key: "twentyFt",
             render: (_, record, index) => (
-                <Form.Item style={{width: 80}}
+                <Form.Item style={{ width: 80 }}
                     name={["data", index, "twentyFt"]}
                     initialValue={record.twentyFt}
                 >
@@ -224,7 +224,7 @@ const Test2 = () => {
             dataIndex: "fortyFt",
             key: "fortyFt",
             render: (_, record, index) => (
-                <Form.Item style={{width: 80}}
+                <Form.Item style={{ width: 80 }}
                     name={["data", index, "fortyFt"]}
                     initialValue={record.fortyFt}
                 >
@@ -256,7 +256,7 @@ const Test2 = () => {
             dataIndex: "fortyFtHC",
             key: "fortyFtHC",
             render: (_, record, index) => (
-                <Form.Item style={{width: 80}}
+                <Form.Item style={{ width: 80 }}
                     name={["data", index, "fortyFtHC"]}
                     initialValue={record.fortyFtHC}
                 >
@@ -301,7 +301,7 @@ const Test2 = () => {
             key: "action",
             render: (_, record) => (
                 <Button
-                id='delete-btn-2' 
+                    id='delete-btn-2'
                     type="danger"
                     icon={<DeleteOutlined />}
                     onClick={() => handleFreightChargeRowDelete(record.key)}
@@ -316,123 +316,43 @@ const Test2 = () => {
 
 
     //new local charges
+    //done - Local Charge Data Source and State
     const [localChargesdataSource, setLocalChargesDataSource] = useState([
-        { key: "1", company: "*AMS", twentyFt: "", twentyFtCurrency: "USD", fortyFt: "", fortyFtCurrency: "USD", fortyFtHC: "", fortyFtHCCurrency: "USD", remark: "" },
-        { key: "2", company: "*B/L", twentyFt: "", twentyFtCurrency: "USD", fortyFt: "", fortyFtCurrency: "USD", fortyFtHC: "", fortyFtHCCurrency: "USD", remark: "" },
-        { key: "3", company: "*Surrendered B/L", twentyFt: "", twentyFtCurrency: "USD", fortyFt: "", fortyFtCurrency: "USD", fortyFtHC: "", fortyFtHCCurrency: "USD", remark: "" },
-        { key: "3", company: "*Customs clearance", twentyFt: "", twentyFtCurrency: "USD", fortyFt: "", fortyFtCurrency: "USD", fortyFtHC: "", fortyFtHCCurrency: "USD", remark: "" },
-        { key: "3", company: "*Transport", twentyFt: "", twentyFtCurrency: "USD", fortyFt: "", fortyFtCurrency: "USD", fortyFtHC: "", fortyFtHCCurrency: "USD", remark: "" },
-        { key: "3", company: "*Transport2", twentyFt: "", twentyFtCurrency: "USD", fortyFt: "", fortyFtCurrency: "USD", fortyFtHC: "", fortyFtHCCurrency: "USD", remark: "" },
-    ]);
-
-    const localChargesCurrencies = ["NOK", "NZD", "JPY", "SGD", "THB", "FJD", "USD", "RMB", "EUR", "HKD", "AUD", "MYR", "GBP", "CHF", "CNY"];
-
-    const localChargesColumns = [
         {
-            title: "Local Charges",
-            dataIndex: "company",
-            key: "company",
+            key: "1",
+            company: ["*AMS", "*B/L", "*Surrendered B/L", "*Customs clearance", "*Transport", "Transport2"],
+            twentyFt: "",
+            twentyFtCurrency: "USD",
+            fortyFt: "",
+            fortyFtCurrency: "USD",
+            fortyFtHC: "",
+            fortyFtHCCurrency: "USD",
+            remark: "",
         },
-        {
-            title: "20'",
-            dataIndex: "twentyFt",
-            key: "twentyFt",
-            render: (_, record) => (
-                <div style={{ display: "flex", gap: "8px" }}>
-                    <Input style={{ width: 80 }}
-                        name={`twentyLocalCharge` + record.key}
-                        value={record.twentyFt}
-                        onChange={(e) => handleInputChange(record.key, "twentyFt", e.target.value)}
-                        placeholder="Enter amount"
-                    />
-                    <Select
-                        value={record.twentyFtCurrency}
-                        onChange={(value) => handleInputChange(record.key, "twentyFtCurrency", value)}
-                        style={{ width: 80 }}
-                    >
-                        {localChargesCurrencies.map((currency) => (
-                            <Option key={currency} value={currency}>
-                                {currency}
-                            </Option>
-                        ))}
-                    </Select>
-                </div>
-            ),
-        },
-        {
-            title: "40'",
-            dataIndex: "fortyFt",
-            key: "fortyFt",
-            render: (_, record) => (
-                <div style={{ display: "flex", gap: "8px" }}>
-                    <Input style={{ width: 80 }}
-                        name={`fourtyLocalCharge` + record.key}
-                        value={record.fortyFt}
-                        onChange={(e) => handleInputChange(record.key, "fortyFt", e.target.value)}
-                        placeholder="Enter amount"
-                    />
-                    <Select
-                        value={record.fortyFtCurrency}
-                        onChange={(value) => handleInputChange(record.key, "fortyFtCurrency", value)}
-                        style={{ width: 80 }}
-                    >
-                        {currencies.map((currency) => (
-                            <Option key={currency} value={currency}>
-                                {currency}
-                            </Option>
-                        ))}
-                    </Select>
-                </div>
-            ),
-        },
-        {
-            title: "40'hc",
-            dataIndex: "fortyFtHC",
-            key: "fortyFtHC",
-            render: (_, record) => (
-                <div style={{ display: "flex", gap: "8px" }}>
-                    <Input style={{ width: 80 }}
-                        name={`fourtyHCLocalCharge` + record.key}
-                        value={record.fortyFtHC}
-                        onChange={(e) => handleInputChange(record.key, "fortyFtHC", e.target.value)}
-                        placeholder="Enter amount"
-                    />
-                    <Select
-                        value={record.fortyFtHCCurrency}
-                        onChange={(value) => handleInputChange(record.key, "fortyFtHCCurrency", value)}
-                        style={{ width: 80 }}
-                    >
-                        {currencies.map((currency) => (
-                            <Option key={currency} value={currency}>
-                                {currency}
-                            </Option>
-                        ))}
-                    </Select>
-                </div>
-            ),
-        },
-        {
-            title: "Remark",
-            dataIndex: "remark",
-            key: "remark",
-            render: (_, record) => (
-                <Input style={{ width: 80 }}
-                    name={`remarkLocalCharge` + record.key}
-                    value={record.remark}
-                    onChange={(e) => handleInputChange(record.key, "remark", e.target.value)}
-                    placeholder="Enter remark"
-                />
-            ),
-        },
-    ];
-    //new local charges end
-
-
-    //new door delivery charges
-     const [doorDeliveryDataSource, setDoorDeliveryDataSource] = useState([
-            {
-                key: "1",
-                company: ["*Advance Freight", "*Alameda Corrdor", "*Arbrtrary"],
+           ]);
+    
+    
+        //done - Local Charge Options State
+        const [localChargeOption, setLocalChargesOption] = useState([
+            "*AMS",
+            "*B/L",
+            "*Surrendered B/L",
+            "*Customs clearance",
+            "*Transport",
+            "*Transport2"
+    
+        ]);
+    
+        //done - Local Charge Currencies
+        const localChargeCurrencies = [
+            "NOK", "NZD", "JPY", "SGD", "THB", "FJD", "USD", "RMB", "EUR", "HKD", "AUD", "MYR", "GBP", "CHF", "CNY",
+        ];
+     
+        //done - handle Local Charge Add New Row
+        const handleLocalChargesNewRow = () => {
+            const newRow = {
+                key: (localChargesdataSource.length + 1).toString(),
+                company: [],
                 twentyFt: "",
                 twentyFtCurrency: "USD",
                 fortyFt: "",
@@ -440,15 +360,218 @@ const Test2 = () => {
                 fortyFtHC: "",
                 fortyFtHCCurrency: "USD",
                 remark: "",
+            };
+            setLocalChargesDataSource([...localChargesdataSource, newRow]);
+        };
+    
+    
+        //done - handle Local Charge Options
+        const handleAddLocalChargesOptions = (newCompany) => {
+            if (newCompany && !localChargeOption.includes(newCompany)) {
+                setLocalChargesOption((prev) => [...prev, newCompany]);
+            }
+        };
+    
+    
+        //done - handle Local Charge Row Delete
+        const handleLocalChargeRowDelete = (key) => {
+            setLocalChargesDataSource((prevData) => prevData.filter((item) => item.key !== key));
+        };
+    
+    
+        //done - Local Charge Columns
+        const localChargesColumns = [
+            {
+                title: "Local Charge",
+                dataIndex: "company",
+                key: "company",
+                render: (_, record, index) => (
+                    <Form.Item style={{width: 80}}
+                        name={["data", index, "company"]}
+                        initialValue={record.company}
+                        rules={[{ required: true, message: "Please select a company" }]}
+                    >
+                        <Select
+                            // mode="multiple"
+                            placeholder="Select or Add Company"
+                            showArrow
+                            dropdownRender={(menu) => (
+                                <>
+                                    {menu}
+                                    <div style={{ display: "flex", padding: 8 }}>
+                                        <Input style={{width: 80}}
+                                            placeholder="Add new company"
+                                            onPressEnter={(e) => {
+                                                const newCompany = e.target.value.trim();
+                                                if (newCompany) {
+                                                    handleAddLocalChargesOptions(newCompany);
+                                                    e.target.value = "";
+                                                }
+                                            }}
+                                            style={{ flex: "auto" }}
+                                        />
+                                    </div>
+                                </>
+                            )}
+                            style={{ width: "100%" }}
+                        >
+                            {localChargeOption.map((company) => (
+                                <Option key={company} value={company}>
+                                    {company}
+                                </Option>
+                            ))}
+                        </Select>
+                    </Form.Item>
+                ),
             },
-        ]);
+            {
+                title: "20'",
+                dataIndex: "twentyFt",
+                key: "twentyFt",
+                render: (_, record, index) => (
+                    <Form.Item style={{width: 80}}
+                        name={["data", index, "twentyFt"]}
+                        initialValue={record.twentyFt}
+                    >
+                        <Input placeholder="Enter Amount" />
+                    </Form.Item>
+                ),
+            },
+            {
+                title: "20' Currency",
+                dataIndex: "twentyFtCurrency",
+                key: "twentyFtCurrency",
+                render: (_, record, index) => (
+                    <Form.Item style={{width: 80}}
+                        name={["data", index, "twentyFtCurrency"]}
+                        initialValue={record.twentyFtCurrency}
+                    >
+                        <Select style={{ width: "100%" }}>
+                            {localChargeCurrencies.map((currency) => (
+                                <Option key={currency} value={currency}>
+                                    {currency}
+                                </Option>
+                            ))}
+                        </Select>
+                    </Form.Item>
+                ),
+            },
+            {
+                title: "40'",
+                dataIndex: "fortyFt",
+                key: "fortyFt",
+                render: (_, record, index) => (
+                    <Form.Item style={{width: 80}}
+                        name={["data", index, "fortyFt"]}
+                        initialValue={record.fortyFt}
+                    >
+                        <Input placeholder="Enter Amount" />
+                    </Form.Item>
+                ),
+            },
+            {
+                title: "40' Currency",
+                dataIndex: "fortyFtCurrency",
+                key: "fortyFtCurrency",
+                render: (_, record, index) => (
+                    <Form.Item style={{width: 80}}
+                        name={["data", index, "fortyFtCurrency"]}
+                        initialValue={record.fortyFtCurrency}
+                    >
+                        <Select style={{ width: "100%" }}>
+                            {localChargeCurrencies.map((currency) => (
+                                <Option key={currency} value={currency}>
+                                    {currency}
+                                </Option>
+                            ))}
+                        </Select>
+                    </Form.Item>
+                ),
+            },
+            {
+                title: "40'hc",
+                dataIndex: "fortyFtHC",
+                key: "fortyFtHC",
+                render: (_, record, index) => (
+                    <Form.Item style={{width: 80}}
+                        name={["data", index, "fortyFtHC"]}
+                        initialValue={record.fortyFtHC}
+                    >
+                        <Input placeholder="Enter Amount" />
+                    </Form.Item>
+                ),
+            },
+            {
+                title: "40'hc Currency",
+                dataIndex: "fortyFtHCCurrency",
+                key: "fortyFtHCCurrency",
+                render: (_, record, index) => (
+                    <Form.Item style={{width: 80}}
+                        name={["data", index, "fortyFtHCCurrency"]}
+                        initialValue={record.fortyFtHCCurrency}
+                    >
+                        <Select style={{ width: "100%" }}>
+                            {localChargeCurrencies.map((currency) => (
+                                <Option key={currency} value={currency}>
+                                    {currency}
+                                </Option>
+                            ))}
+                        </Select>
+                    </Form.Item>
+                ),
+            },
+            {
+                title: "Remark",
+                dataIndex: "remark",
+                key: "remark",
+                render: (_, record, index) => (
+                    <Form.Item style={{width: 80}}
+                        name={["data", index, "remark"]}
+                        initialValue={record.remark}
+                    >
+                        <Input placeholder="Enter Remark" />
+                    </Form.Item>
+                ),
+            },
+            {
+                title: "Action",
+                key: "action",
+                render: (_, record) => (
+                    <Button
+                    id='delete-btn-3'
+                        type="danger"
+                        icon={<DeleteOutlined />}
+                        onClick={() => handleLocalChargeRowDelete(record.key)}
+                    >
+                        Delete
+                    </Button>
+                ),
+            },
+        ]
+    //new local charges end
+
+
+    //new door delivery charges
+    const [doorDeliveryDataSource, setDoorDeliveryDataSource] = useState([
+        {
+            key: "1",
+            company: ["*Advance Freight", "*Alameda Corrdor", "*Arbrtrary"],
+            twentyFt: "",
+            twentyFtCurrency: "USD",
+            fortyFt: "",
+            fortyFtCurrency: "USD",
+            fortyFtHC: "",
+            fortyFtHCCurrency: "USD",
+            remark: "",
+        },
+    ]);
 
     //company options
-   const [doorDeliveryChargesOptions, setDoorDeliveryChargesOptions] = useState([
-           "*Advance Freight",
-           "*Alameda Corrdor",
-           "*Arbrtrary",
-       ]);
+    const [doorDeliveryChargesOptions, setDoorDeliveryChargesOptions] = useState([
+        "*Advance Freight",
+        "*Alameda Corrdor",
+        "*Arbrtrary",
+    ]);
 
     const doorDeliveryCurrencies = ["NOK", "NZD", "JPY", "SGD", "THB", "FJD", "USD", "RMB", "EUR", "HKD", "AUD", "MYR", "GBP", "CHF", "CNY"];
 
@@ -471,7 +594,7 @@ const Test2 = () => {
 
     const handleAddDoorDeliveryChargesOptions = (newCompany) => {
         if (newCompany && !doorDeliveryChargesOptions.includes(newCompany)) {
-            setdoorDeliveryChargesOptions((prev) => [...prev, newCompany]);
+            setDoorDeliveryChargesOptions((prev) => [...prev, newCompany]);
         }
     };
 
@@ -530,7 +653,7 @@ const Test2 = () => {
             dataIndex: "twentyFt",
             key: "twentyFt",
             render: (_, record, index) => (
-                <Form.Item style={{width: 80}}
+                <Form.Item style={{ width: 80 }}
                     name={["data", index, "twentyFt"]}
                     initialValue={record.twentyFt}
                 >
@@ -562,7 +685,7 @@ const Test2 = () => {
             dataIndex: "fortyFt",
             key: "fortyFt",
             render: (_, record, index) => (
-                <Form.Item style={{width: 80}}
+                <Form.Item style={{ width: 80 }}
                     name={["data", index, "fortyFt"]}
                     initialValue={record.fortyFt}
                 >
@@ -594,7 +717,7 @@ const Test2 = () => {
             dataIndex: "fortyFtHC",
             key: "fortyFtHC",
             render: (_, record, index) => (
-                <Form.Item style={{width: 80}}
+                <Form.Item style={{ width: 80 }}
                     name={["data", index, "fortyFtHC"]}
                     initialValue={record.fortyFtHC}
                 >
@@ -626,7 +749,7 @@ const Test2 = () => {
             dataIndex: "remark",
             key: "remark",
             render: (_, record, index) => (
-                <Form.Item style={{width: 80}}
+                <Form.Item style={{ width: 80 }}
                     name={["data", index, "remark"]}
                     initialValue={record.remark}
                 >
@@ -658,113 +781,235 @@ const Test2 = () => {
 
 
     //new custom and transport charges
-    const [customDataSource, setCustomDataSource] = useState([
-        { key: "1", company: "*CUSTOMS CLERANCE ", twentyFt: "", twentyFtCurrency: "USD", fortyFt: "", fortyFtCurrency: "USD", fortyFtHC: "", fortyFtHCCurrency: "USD", remark: "" },
-        { key: "2", company: "*TRANSPORT CHARGE ", twentyFt: "", twentyFtCurrency: "USD", fortyFt: "", fortyFtCurrency: "USD", fortyFtHC: "", fortyFtHCCurrency: "USD", remark: "" },
-        { key: "3", company: "*OTHER CHARGE", twentyFt: "", twentyFtCurrency: "USD", fortyFt: "", fortyFtCurrency: "USD", fortyFtHC: "", fortyFtHCCurrency: "USD", remark: "" },
+    //done - Custom Charge Data Source and State
+   const [customChargesdataSource, setCustomChargesDataSource] = useState([
+    {
+        key: "1",
+        company: ["*CUSTOMS CLERANCE", "*TRANSPORT CHARGE", "*OTHER CHARGE"],
+        twentyFt: "",
+        twentyFtCurrency: "USD",
+        fortyFt: "",
+        fortyFtCurrency: "USD",
+        fortyFtHC: "",
+        fortyFtHCCurrency: "USD",
+        remark: "",
+    },
+       ]);
 
+
+    //done - Custom Charge Options State
+    const [customChargeOption, setCustomChargesOption] = useState([
+        "*CUSTOMS CLERANCE",
+        "*TRANSPORT CHARGE",
+        "*OTHER CHARGE"
     ]);
 
-    const customCurrencies = ["NOK", "NZD", "JPY", "SGD", "THB", "FJD", "USD", "RMB", "EUR", "HKD", "AUD", "MYR", "GBP", "CHF", "CNY"];
+    //done - Custom Charge Currencies
+    const customChargeCurrencies = [
+        "NOK", "NZD", "JPY", "SGD", "THB", "FJD", "USD", "RMB", "EUR", "HKD", "AUD", "MYR", "GBP", "CHF", "CNY",
+    ];
+ 
+    //done - handle Custom Charge Add New Row
+    const handleCustomChargesNewRow = () => {
+        const newRow = {
+            key: (customChargesdataSource.length + 1).toString(),
+            company: [],
+            twentyFt: "",
+            twentyFtCurrency: "USD",
+            fortyFt: "",
+            fortyFtCurrency: "USD",
+            fortyFtHC: "",
+            fortyFtHCCurrency: "USD",
+            remark: "",
+        };
+        setCustomChargesDataSource([...customChargesdataSource, newRow]);
+    };
 
-    const customColumns = [
+
+    //done - handle Custom Charge Options
+    const handleAddCustomChargesOptions = (newCompany) => {
+        if (newCompany && !customChargeOption.includes(newCompany)) {
+            setCustomChargesOption((prev) => [...prev, newCompany]);
+        }
+    };
+
+
+    //done - handle Custom Charge Row Delete
+    const handleCustomChargeRowDelete = (key) => {
+        setDataSource((prevData) => prevData.filter((item) => item.key !== key));
+    };
+
+
+    //done - Custom Charge Columns
+    const customChargesColumns = [
         {
-            title: "Custom & Transport Charge",
+            title: "Custom Charge",
             dataIndex: "company",
             key: "company",
+            render: (_, record, index) => (
+                <Form.Item style={{width: 80}}
+                    name={["data", index, "company"]}
+                    initialValue={record.company}
+                    rules={[{ required: true, message: "Please select a company" }]}
+                >
+                    <Select
+                        // mode="multiple"
+                        placeholder="Select or Add Company"
+                        showArrow
+                        dropdownRender={(menu) => (
+                            <>
+                                {menu}
+                                <div style={{ display: "flex", padding: 8 }}>
+                                    <Input style={{width: 80}}
+                                        placeholder="Add new company"
+                                        onPressEnter={(e) => {
+                                            const newCompany = e.target.value.trim();
+                                            if (newCompany) {
+                                                handleAddCustomChargesOptions(newCompany);
+                                                e.target.value = "";
+                                            }
+                                        }}
+                                        style={{ flex: "auto" }}
+                                    />
+                                </div>
+                            </>
+                        )}
+                        style={{ width: "100%" }}
+                    >
+                        {customChargeOption.map((company) => (
+                            <Option key={company} value={company}>
+                                {company}
+                            </Option>
+                        ))}
+                    </Select>
+                </Form.Item>
+            ),
         },
         {
             title: "20'",
             dataIndex: "twentyFt",
             key: "twentyFt",
-            render: (_, record) => (
-                <div style={{ display: "flex", gap: "8px" }}>
-                    <Input style={{ width: 80 }}
-                        name={`TwentyCustomAndTransportCharge` + record.key}
-                        value={record.twentyFt}
-                        onChange={(e) => handleInputChange(record.key, "twentyFt", e.target.value)}
-                        placeholder="Enter amount"
-                    />
-                    <Select
-                        value={record.twentyFtCurrency}
-                        onChange={(value) => handleInputChange(record.key, "twentyFtCurrency", value)}
-                        style={{ width: 80 }}
-                    >
-                        {customCurrencies.map((currency) => (
+            render: (_, record, index) => (
+                <Form.Item style={{width: 80}}
+                    name={["data", index, "twentyFt"]}
+                    initialValue={record.twentyFt}
+                >
+                    <Input placeholder="Enter Amount" />
+                </Form.Item>
+            ),
+        },
+        {
+            title: "20' Currency",
+            dataIndex: "twentyFtCurrency",
+            key: "twentyFtCurrency",
+            render: (_, record, index) => (
+                <Form.Item style={{width: 80}}
+                    name={["data", index, "twentyFtCurrency"]}
+                    initialValue={record.twentyFtCurrency}
+                >
+                    <Select style={{ width: "100%" }}>
+                        {customChargeCurrencies.map((currency) => (
                             <Option key={currency} value={currency}>
                                 {currency}
                             </Option>
                         ))}
                     </Select>
-                </div>
+                </Form.Item>
             ),
         },
         {
             title: "40'",
             dataIndex: "fortyFt",
             key: "fortyFt",
-            render: (_, record) => (
-                <div style={{ display: "flex", gap: "8px" }}>
-                    <Input style={{ width: 80 }}
-                        name={`FourtyCustomAndTransportCharge` + record.key}
-                        value={record.fortyFt}
-                        onChange={(e) => handleInputChange(record.key, "fortyFt", e.target.value)}
-                        placeholder="Enter amount"
-                    />
-                    <Select
-                        value={record.fortyFtCurrency}
-                        onChange={(value) => handleInputChange(record.key, "fortyFtCurrency", value)}
-                        style={{ width: 80 }}
-                    >
-                        {currencies.map((currency) => (
+            render: (_, record, index) => (
+                <Form.Item style={{width: 80}}
+                    name={["data", index, "fortyFt"]}
+                    initialValue={record.fortyFt}
+                >
+                    <Input placeholder="Enter Amount" />
+                </Form.Item>
+            ),
+        },
+        {
+            title: "40' Currency",
+            dataIndex: "fortyFtCurrency",
+            key: "fortyFtCurrency",
+            render: (_, record, index) => (
+                <Form.Item style={{width: 80}}
+                    name={["data", index, "fortyFtCurrency"]}
+                    initialValue={record.fortyFtCurrency}
+                >
+                    <Select style={{ width: "100%" }}>
+                        {customChargeCurrencies.map((currency) => (
                             <Option key={currency} value={currency}>
                                 {currency}
                             </Option>
                         ))}
                     </Select>
-                </div>
+                </Form.Item>
             ),
         },
         {
             title: "40'hc",
             dataIndex: "fortyFtHC",
             key: "fortyFtHC",
-            render: (_, record) => (
-                <div style={{ display: "flex", gap: "8px" }}>
-                    <Input style={{ width: 80 }}
-                        value={record.fortyFtHC}
-                        onChange={(e) => handleInputChange(record.key, "fortyFtHC", e.target.value)}
-                        placeholder="Enter amount"
-                    />
-                    <Select
-                        name={`FourtyHcCustomAndTransportCharge` + record.key}
-                        value={record.fortyFtHCCurrency}
-                        onChange={(value) => handleInputChange(record.key, "fortyFtHCCurrency", value)}
-                        style={{ width: 80 }}
-                    >
-                        {currencies.map((currency) => (
+            render: (_, record, index) => (
+                <Form.Item style={{width: 80}}
+                    name={["data", index, "fortyFtHC"]}
+                    initialValue={record.fortyFtHC}
+                >
+                    <Input placeholder="Enter Amount" />
+                </Form.Item>
+            ),
+        },
+        {
+            title: "40'hc Currency",
+            dataIndex: "fortyFtHCCurrency",
+            key: "fortyFtHCCurrency",
+            render: (_, record, index) => (
+                <Form.Item style={{width: 80}}
+                    name={["data", index, "fortyFtHCCurrency"]}
+                    initialValue={record.fortyFtHCCurrency}
+                >
+                    <Select style={{ width: "100%" }}>
+                        {customChargeCurrencies.map((currency) => (
                             <Option key={currency} value={currency}>
                                 {currency}
                             </Option>
                         ))}
                     </Select>
-                </div>
+                </Form.Item>
             ),
         },
         {
             title: "Remark",
             dataIndex: "remark",
             key: "remark",
-            render: (_, record) => (
-                <Input style={{ width: 80 }}
-                    name={`RemarkCustomAndTransportCharge` + record.key}
-                    value={record.remark}
-                    onChange={(e) => handleInputChange(record.key, "remark", e.target.value)}
-                    placeholder="Enter remark"
-                />
+            render: (_, record, index) => (
+                <Form.Item style={{width: 80}}
+                    name={["data", index, "remark"]}
+                    initialValue={record.remark}
+                >
+                    <Input placeholder="Enter Remark" />
+                </Form.Item>
             ),
         },
-    ];
+        {
+            title: "Action",
+            key: "action",
+            render: (_, record) => (
+                <Button
+                id='delete-btn-4'
+                    type="danger"
+                    icon={<DeleteOutlined />}
+                    onClick={() => handleCustomChargeRowDelete(record.key)}
+                >
+                    Delete
+                </Button>
+            ),
+        },
+    ]
+
     //new custom and transport charges end
 
     const handleInputChange = (key, field, value) => {
@@ -895,22 +1140,22 @@ const Test2 = () => {
                                 <h2 id='local-charges-title' className="text-left text-xl font-bold text-[#2A388F] mb-0 mt-4 bg-[#1A2067]">Freight Charge</h2>
                             </Col>
                             {/* Freight Charge UI Start */}
-            <div className="overflow-scroll w-full">
-                <Table
-                    dataSource={dataSource}
-                    columns={freightChargesColumns}
-                    pagination={false}
-                    className="min-w-[600px] md:min-w-[800px] lg:min-w-[1000px] customTable"
-                    scroll={{ x: "max-content" }}
-                    bordered
-                />
-            </div>
-            <Button type="primary" 
-            id='add-row-btn-2'
-            onClick={handleFreightChargesNewRow} className="mt-4">
-                Add Row
-            </Button>
-            {/* Freight Charge UI End */}
+                            <div className="overflow-scroll w-full">
+                                <Table
+                                    dataSource={dataSource}
+                                    columns={freightChargesColumns}
+                                    pagination={false}
+                                    className="min-w-[600px] md:min-w-[800px] lg:min-w-[1000px] customTable"
+                                    scroll={{ x: "max-content" }}
+                                    bordered
+                                />
+                            </div>
+                            <Button type="primary"
+                                id='add-row-btn-2'
+                                onClick={handleFreightChargesNewRow} className="mt-4">
+                                Add Row
+                            </Button>
+                            {/* Freight Charge UI End */}
                         </Row>
                     </Panel>
                     <Panel id='sea-freight-subheader-2' header="Door Delivery Charge" key="door-delivery">
@@ -923,19 +1168,19 @@ const Test2 = () => {
                             </Col>
 
 
-                           <div className="overflow-scroll w-full">
-                                           <Table
-                                               dataSource={doorDeliveryDataSource}
-                                               columns={doorDeliveryColumns}
-                                               pagination={false}
-                                               className="min-w-[600px] md:min-w-[800px] lg:min-w-[1000px] customTable"
-                                               scroll={{ x: "max-content" }}
-                                               bordered
-                                           />
-                                       </div>
-                                       <Button id='add-row-btn-1' type="primary" onClick={handleDoorDeliveryChargesNewRow} className="mt-4">
-                                           Add Row
-                                       </Button>
+                            <div className="overflow-scroll w-full">
+                                <Table
+                                    dataSource={doorDeliveryDataSource}
+                                    columns={doorDeliveryColumns}
+                                    pagination={false}
+                                    className="min-w-[600px] md:min-w-[800px] lg:min-w-[1000px] customTable"
+                                    scroll={{ x: "max-content" }}
+                                    bordered
+                                />
+                            </div>
+                            <Button id='add-row-btn-1' type="primary" onClick={handleDoorDeliveryChargesNewRow} className="mt-4">
+                                Add Row
+                            </Button>
 
 
 
@@ -948,7 +1193,8 @@ const Test2 = () => {
                             <Col span={24}>
                                 <h2 id='local-charges-title' className="text-left text-xl font-bold text-[#2A388F] mb-0 mt-4 bg-[#1A2067]">Local Charge</h2>
                             </Col>
-                            <div className="overflow-auto w-full">
+                            {/* Local Charge UI Start */}
+                            <div className="overflow-scroll w-full">
                                 <Table
                                     dataSource={localChargesdataSource}
                                     columns={localChargesColumns}
@@ -958,6 +1204,12 @@ const Test2 = () => {
                                     bordered
                                 />
                             </div>
+                            <Button
+                                id='add-row-btn-3'
+                                type="primary" onClick={handleLocalChargesNewRow} className="mt-4">
+                                Add Row
+                            </Button>
+                            {/* Local Charge UI End */}
                         </Row>
                     </Panel>
                     <Panel id='sea-freight-subheader-4' header="Custom & Transport Charge" key="custom">
@@ -968,16 +1220,23 @@ const Test2 = () => {
                             <Col span={24}>
                                 <h2 id='local-charges-title' className="text-left text-xl font-bold text-[#2A388F] mb-0 mt-4 bg-[#1A2067]">Custom & Transport</h2>
                             </Col>
-                            <div className="overflow-auto w-full">
-                                <Table
-                                    dataSource={customDataSource}
-                                    columns={customColumns}
-                                    pagination={false}
-                                    className="min-w-[600px] md:min-w-[800px] lg:min-w-[1000px] customTable"
-                                    scroll={{ x: "max-content" }}
-                                    bordered
-                                />
-                            </div>
+                            {/* Custom Charge UI Start */}
+            <div className="overflow-scroll w-full">
+                <Table
+                    dataSource={customChargesdataSource}
+                    columns={customChargesColumns}
+                    pagination={false}
+                    className="min-w-[600px] md:min-w-[800px] lg:min-w-[1000px] customTable"
+                    scroll={{ x: "max-content" }}
+                    bordered
+                />
+            </div>
+            <Button
+            id='add-row-btn-4'
+             type="primary" onClick={handleCustomChargesNewRow} className="mt-4">
+                Add Row
+            </Button>
+            {/* Custom Charge UI End */}
                         </Row>
                     </Panel>
                 </Collapse>
