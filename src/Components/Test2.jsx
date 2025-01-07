@@ -98,7 +98,7 @@ const Test2 = () => {
             key: "twentyFt",
             render: (_, record) => (
                 <div style={{ display: "flex", gap: "8px" }}>
-                    <Input style={{width: 80}}
+                    <Input style={{ width: 80 }}
                         name={'twentyFreightCharge' + record.key}
                         value={record.twentyFt}
                         onChange={(e) => handleInputChange(record.key, "twentyFt", e.target.value)}
@@ -124,7 +124,7 @@ const Test2 = () => {
             key: "fortyFt",
             render: (_, record) => (
                 <div style={{ display: "flex", gap: "8px" }}>
-                    <Input style={{width: 80}}
+                    <Input style={{ width: 80 }}
                         name={'fourtyFreightCharge' + record.key}
                         value={record.fortyFt}
                         onChange={(e) => handleInputChange(record.key, "fortyFt", e.target.value)}
@@ -150,7 +150,7 @@ const Test2 = () => {
             key: "fortyFtHC",
             render: (_, record) => (
                 <div style={{ display: "flex", gap: "8px" }}>
-                    <Input style={{width: 80}}
+                    <Input style={{ width: 80 }}
                         name={'fourtyHcFreightCharge' + record.key}
                         value={record.fortyFtHC}
                         onChange={(e) => handleInputChange(record.key, "fortyFtHC", e.target.value)}
@@ -175,7 +175,7 @@ const Test2 = () => {
             dataIndex: "remark",
             key: "remark",
             render: (_, record) => (
-                <Input
+                <Input style={{width: 80}}
                     name={'remarkFreightCharge' + record.key}
                     value={record.remark}
                     onChange={(e) => handleInputChange(record.key, "remark", e.target.value)}
@@ -210,7 +210,7 @@ const Test2 = () => {
             key: "twentyFt",
             render: (_, record) => (
                 <div style={{ display: "flex", gap: "8px" }}>
-                    <Input style={{width: 80}}
+                    <Input style={{ width: 80 }}
                         name={`twentyLocalCharge` + record.key}
                         value={record.twentyFt}
                         onChange={(e) => handleInputChange(record.key, "twentyFt", e.target.value)}
@@ -236,7 +236,7 @@ const Test2 = () => {
             key: "fortyFt",
             render: (_, record) => (
                 <div style={{ display: "flex", gap: "8px" }}>
-                    <Input style={{width: 80}}
+                    <Input style={{ width: 80 }}
                         name={`fourtyLocalCharge` + record.key}
                         value={record.fortyFt}
                         onChange={(e) => handleInputChange(record.key, "fortyFt", e.target.value)}
@@ -262,7 +262,7 @@ const Test2 = () => {
             key: "fortyFtHC",
             render: (_, record) => (
                 <div style={{ display: "flex", gap: "8px" }}>
-                    <Input style={{width: 80}}
+                    <Input style={{ width: 80 }}
                         name={`fourtyHCLocalCharge` + record.key}
                         value={record.fortyFtHC}
                         onChange={(e) => handleInputChange(record.key, "fortyFtHC", e.target.value)}
@@ -287,7 +287,7 @@ const Test2 = () => {
             dataIndex: "remark",
             key: "remark",
             render: (_, record) => (
-                <Input
+                <Input style={{width: 80}}
                     name={`remarkLocalCharge` + record.key}
                     value={record.remark}
                     onChange={(e) => handleInputChange(record.key, "remark", e.target.value)}
@@ -300,113 +300,212 @@ const Test2 = () => {
 
 
     //new door delivery charges
-    const [doorDeliveryDataSource, setDoorDeliveryDataSource] = useState([
-        { key: "1", company: "*Advance Freight", twentyFt: "", twentyFtCurrency: "USD", fortyFt: "", fortyFtCurrency: "USD", fortyFtHC: "", fortyFtHCCurrency: "USD", remark: "" },
-        { key: "2", company: "*Alameda Corrdor", twentyFt: "", twentyFtCurrency: "USD", fortyFt: "", fortyFtCurrency: "USD", fortyFtHC: "", fortyFtHCCurrency: "USD", remark: "" },
-        { key: "3", company: "*Arbrtrary", twentyFt: "", twentyFtCurrency: "USD", fortyFt: "", fortyFtCurrency: "USD", fortyFtHC: "", fortyFtHCCurrency: "USD", remark: "" },
+     const [doorDeliveryDataSource, setDoorDeliveryDataSource] = useState([
+       {
+         key: "1",
+         company: ["*Advance Freight", "*Alameda Corrdor", "*Arbrtrary"],
+         twentyFt: "",
+         twentyFtCurrency: "USD",
+         fortyFt: "",
+         fortyFtCurrency: "USD",
+         fortyFtHC: "",
+         fortyFtHCCurrency: "USD",
+         remark: "",
+       },
+     ]);
 
-    ]);
+     //company options
+       const [doorDeliveryChargesOptions, setdoorDeliveryChargesOptions] = useState([
+         "*Advance Freight",
+         "*Alameda Corrdor",
+         "*Arbrtrary",
+       ]);
 
     const doorDeliveryCurrencies = ["NOK", "NZD", "JPY", "SGD", "THB", "FJD", "USD", "RMB", "EUR", "HKD", "AUD", "MYR", "GBP", "CHF", "CNY"];
 
-    const doorDeliveryColumns = [
-        {
+    //Handle change for door delivery
+
+    const handleDoorDeliveryChargesNewRow = () => {
+        const newRow = {
+          key: (doorDeliveryDataSource.length + 1).toString(),
+          company: [],
+          twentyFt: "",
+          twentyFtCurrency: "USD",
+          fortyFt: "",
+          fortyFtCurrency: "USD",
+          fortyFtHC: "",
+          fortyFtHCCurrency: "USD",
+          remark: "",
+        };
+        setDoorDeliveryDataSource([...doorDeliveryDataSource, newRow]);
+      };
+
+      const handleAddDoorDeliveryChargesOptions = (newCompany) => {
+        if (newCompany && !doorDeliveryChargesOptions.includes(newCompany)) {
+          setdoorDeliveryChargesOptions((prev) => [...prev, newCompany]);
+        }
+      };
+
+      const doorDeliveryColumns = [
+          {
             title: "Door Delivery Charge",
             dataIndex: "company",
             key: "company",
-        },
-        {
+            render: (_, record, index) => (
+              <Form.Item
+                name={["data", index, "company"]}
+                initialValue={record.company}
+                rules={[{ required: true, message: "Please select a company" }]}
+              >
+                <Select style={{ width: 150 }}
+                //   mode="multiple"
+                  placeholder="Select or Add Company"
+                  showArrow
+                  dropdownRender={(menu) => (
+                    <>
+                      {menu}
+                      <div style={{ display: "flex", padding: 8 }}>
+                        <Input 
+                          placeholder="Add New Door Deliver Charge"
+                          onPressEnter={(e) => {
+                            const newCompany = e.target.value.trim();
+                            if (newCompany) {
+                              handleAddDoorDeliveryChargesOptions(newCompany);
+                              e.target.value = "";
+                            }
+                          }}
+                          style={{ flex: "auto" }}
+                        />
+                      </div>
+                    </>
+                  )}
+                  
+                >
+                  {doorDeliveryChargesOptions.map((company) => (
+                    <Option key={company} value={company}>
+                      {company}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            ),
+          },
+          {
             title: "20'",
             dataIndex: "twentyFt",
             key: "twentyFt",
-            render: (_, record) => (
-                <div style={{ display: "flex", gap: "8px" }}>
-                    <Input style={{width: 80}}
-                        name={`twentyDoorDeliveryCharge` + record.key}
-                        value={record.twentyFt}
-                        onChange={(e) => handleInputChange(record.key, "twentyFt", e.target.value)}
-                        placeholder='Enter Amount'
-                    />
-                    <Select
-                        value={record.twentyFtCurrency}
-                        onChange={(value) => handleInputChange(record.key, "twentyFtCurrency", value)}
-                        style={{ width: 80 }}
-                    >
-                        {doorDeliveryCurrencies.map((currency) => (
-                            <Option key={currency} value={currency}>
-                                {currency}
-                            </Option>
-                        ))}
-                    </Select>
-                </div>
+            render: (_, record, index) => (
+              <Form.Item style={{ width: 80 }}
+                name={["data", index, "twentyFt"]}
+                initialValue={record.twentyFt}
+              >
+                <Input placeholder="Enter Amount" />
+              </Form.Item>
             ),
-        },
-        {
+          },
+          {
+            title: "20' Currency",
+            dataIndex: "twentyFtCurrency",
+            key: "twentyFtCurrency",
+            render: (_, record, index) => (
+              <Form.Item
+                name={["data", index, "twentyFtCurrency"]}
+                initialValue={record.twentyFtCurrency}
+              >
+                <Select style={{ width: "100%" }}>
+                  {doorDeliveryCurrencies.map((currency) => (
+                    <Option key={currency} value={currency}>
+                      {currency}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            ),
+          },
+          {
             title: "40'",
             dataIndex: "fortyFt",
             key: "fortyFt",
-            render: (_, record) => (
-                <div style={{ display: "flex", gap: "8px" }}>
-                    <Input style={{width: 80}}
-                        name={`fourtyDoorDeliveryCharge` + record.key}
-                        value={record.fortyFt}
-                        onChange={(e) => handleInputChange(record.key, "fortyFt", e.target.value)}
-                        placeholder="Enter amount"
-                    />
-                    <Select
-                        value={record.fortyFtCurrency}
-                        onChange={(value) => handleInputChange(record.key, "fortyFtCurrency", value)}
-                        style={{ width: 80 }}
-                    >
-                        {currencies.map((currency) => (
-                            <Option key={currency} value={currency}>
-                                {currency}
-                            </Option>
-                        ))}
-                    </Select>
-                </div>
+            render: (_, record, index) => (
+              <Form.Item style={{ width: 80 }}
+                name={["data", index, "fortyFt"]}
+                initialValue={record.fortyFt}
+              >
+                <Input placeholder="Enter Amount" />
+              </Form.Item>
             ),
-        },
-        {
+          },
+          {
+            title: "40' Currency",
+            dataIndex: "fortyFtCurrency",
+            key: "fortyFtCurrency",
+            render: (_, record, index) => (
+              <Form.Item
+                name={["data", index, "fortyFtCurrency"]}
+                initialValue={record.fortyFtCurrency}
+              >
+                <Select style={{ width: "100%" }}>
+                  {doorDeliveryCurrencies.map((currency) => (
+                    <Option key={currency} value={currency}>
+                      {currency}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            ),
+          },
+          {
             title: "40'hc",
             dataIndex: "fortyFtHC",
             key: "fortyFtHC",
-            render: (_, record) => (
-                <div style={{ display: "flex", gap: "8px" }}>
-                    <Input style={{width: 80}}
-                        name={`foutryHcDoorDeliveryCharge` + record.key}
-                        value={record.fortyFtHC}
-                        onChange={(e) => handleInputChange(record.key, "fortyFtHC", e.target.value)}
-                        placeholder="Enter amount"
-                    />
-                    <Select
-                        value={record.fortyFtHCCurrency}
-                        onChange={(value) => handleInputChange(record.key, "fortyFtHCCurrency", value)}
-                        style={{ width: 80 }}
-                    >
-                        {currencies.map((currency) => (
-                            <Option key={currency} value={currency}>
-                                {currency}
-                            </Option>
-                        ))}
-                    </Select>
-                </div>
+            render: (_, record, index) => (
+              <Form.Item style={{ width: 80 }}
+                name={["data", index, "fortyFtHC"]}
+                initialValue={record.fortyFtHC}
+              >
+                <Input placeholder="Enter Amount" />
+              </Form.Item>
             ),
-        },
-        {
+          },
+          {
+            title: "40'hc Currency",
+            dataIndex: "fortyFtHCCurrency",
+            key: "fortyFtHCCurrency",
+            render: (_, record, index) => (
+              <Form.Item
+                name={["data", index, "fortyFtHCCurrency"]}
+                initialValue={record.fortyFtHCCurrency}
+              >
+                <Select style={{ width: "100%" }}>
+                  {doorDeliveryCurrencies.map((currency) => (
+                    <Option key={currency} value={currency}>
+                      {currency}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            ),
+          },
+          {
             title: "Remark",
             dataIndex: "remark",
             key: "remark",
-            render: (_, record) => (
-                <Input
-                    name={`remarkDoorDeliveryCharge` + record.key}
-                    value={record.remark}
-                    onChange={(e) => handleInputChange(record.key, "remark", e.target.value)}
-                    placeholder="Enter remark"
-                />
+            render: (_, record, index) => (
+              <Form.Item style={{width: 80}}
+                name={["data", index, "remark"]}
+                initialValue={record.remark}
+              >
+                <Input placeholder="Enter Remark" />
+              </Form.Item>
             ),
-        },
-    ];
+          },
+        ];
+
+    const handleDoorDeliveryChargesOptions = (newCompany) => {
+        if (newCompany && !doorDeliveryChargesOptions.includes(newCompany)) {
+          setdoorDeliveryChargesOptions((prev) => [...prev, newCompany]);
+        }
+      };
     //new door delivery charges end
 
 
@@ -432,7 +531,7 @@ const Test2 = () => {
             key: "twentyFt",
             render: (_, record) => (
                 <div style={{ display: "flex", gap: "8px" }}>
-                    <Input style={{width: 80}}
+                    <Input style={{ width: 80 }}
                         name={`TwentyCustomAndTransportCharge` + record.key}
                         value={record.twentyFt}
                         onChange={(e) => handleInputChange(record.key, "twentyFt", e.target.value)}
@@ -458,7 +557,7 @@ const Test2 = () => {
             key: "fortyFt",
             render: (_, record) => (
                 <div style={{ display: "flex", gap: "8px" }}>
-                    <Input style={{width: 80}}
+                    <Input style={{ width: 80 }}
                         name={`FourtyCustomAndTransportCharge` + record.key}
                         value={record.fortyFt}
                         onChange={(e) => handleInputChange(record.key, "fortyFt", e.target.value)}
@@ -484,7 +583,7 @@ const Test2 = () => {
             key: "fortyFtHC",
             render: (_, record) => (
                 <div style={{ display: "flex", gap: "8px" }}>
-                    <Input style={{width: 80}}
+                    <Input style={{ width: 80 }}
                         value={record.fortyFtHC}
                         onChange={(e) => handleInputChange(record.key, "fortyFtHC", e.target.value)}
                         placeholder="Enter amount"
@@ -509,7 +608,7 @@ const Test2 = () => {
             dataIndex: "remark",
             key: "remark",
             render: (_, record) => (
-                <Input
+                <Input style={{width: 80}}
                     name={`RemarkCustomAndTransportCharge` + record.key}
                     value={record.remark}
                     onChange={(e) => handleInputChange(record.key, "remark", e.target.value)}
@@ -528,6 +627,14 @@ const Test2 = () => {
         }
     };
     //new table design custom CSS
+
+    //new door delivery auto add charge function starts
+    const handleInputChangeForDoorDelivery = (key, field, value) => {
+        setDoorDeliveryDataSource((prev) =>
+            prev.map((item) => (item.key === key ? { ...item, [field]: value } : item))
+        );
+    };
+    //new door deliver auto add charge function ends
 
 
     //company name auto complete
@@ -655,20 +762,28 @@ const Test2 = () => {
                         {/* <p>Door delivery details...</p> */}
                         {/* Door Delivery charges */}
                         <Row gutter={[16, 16]} className="flex justify-center">
-                            <Col span={24}>
-                                <h2 id='local-charges-title' className="text-left text-xl font-bold text-[#2A388F] mb-0 mt-4 bg-[#1A2067]">Door Delivery Charge</h2>
-                            </Col>
-                            <div className="overflow-auto w-full">
-                                <Table
-                                    dataSource={doorDeliveryDataSource}
-                                    columns={doorDeliveryColumns}
-                                    pagination={false}
-                                    className="min-w-[600px] md:min-w-[800px] lg:min-w-[1000px] customTable"
-                                    scroll={{ x: "max-content" }}
-                                    bordered
-                                />
-                            </div>
-                        </Row>
+                              <Col span={24}>
+                              <h2 id='local-charges-title' className="text-left text-xl font-bold text-[#2A388F] mb-0 mt-4 bg-[#1A2067]">Door Delivery Charge</h2>
+                              </Col>
+                              
+                               
+                                      <div className="overflow-scroll w-full">
+                                        <Table
+                                          dataSource={doorDeliveryDataSource}
+                                          columns={doorDeliveryColumns}
+                                          pagination={false}
+                                          className="min-w-[600px] md:min-w-[800px] lg:min-w-[1000px] customTable"
+                                          scroll={{ x: "max-content" }}
+                                          bordered
+                                        />
+                                      </div>
+                                      <Button type="primary" onClick={handleDoorDeliveryChargesNewRow} className="mt-4">
+                                        Add Row
+                                      </Button>
+                                   
+                              
+                             
+                            </Row>
                     </Panel>
                     <Panel id='sea-freight-subheader-3' header="Local Charge" key="local">
                         {/* Local Charge Content */}
@@ -749,111 +864,111 @@ const Test2 = () => {
                     <Divider />
 
                     {/* <hr className="h-[3px] bg-[#2A388F] mb-5" /> */}
-                    
-                    
-                                        {/* Company and other details - modified */}
-                                        {/* SECTION 1 STARTS HERE       */}
-                                        <Row gutter={16}>
-                                            <Col span={12}>
-                                                <Title level={4} id='customer-details-title' className="bg-[#2A388F] p-2 rounded text-white">
-                                                    Customer Details
-                                                </Title>
-                                                <Form.Item
-                                                    label="Company Name"
-                                                    name="companyName"
-                                                    rules={[{ required: true, message: 'Please enter the company name!' }]}
-                                                >
-                                                    <AutoComplete
-                    
-                                                        options={companyOptions}
-                                                        placeholder="try to type `company name`"
-                                                        filterOption={(inputValue, option) =>
-                                                            option &&
-                                                            option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
-                                                        }
-                                                    />
-                                                </Form.Item>
-                                                <Form.Item
-                                                    label="Attention"
-                                                    name="contactPerson"
-                                                    rules={[{ required: true, message: 'Please enter the contact person!' }]}
-                                                >
-                                                    <Input placeholder="Enter contact person" />
-                                                </Form.Item>
-                                                <Form.Item
-                                                    label="Address one"
-                                                    name="address-one"
-                                                    rules={[{ required: true, message: 'Please enter the address!' }]}
-                                                >
-                                                    <Input placeholder="Enter address" />
-                                                </Form.Item>
-                                                {/* <Form.Item
+
+
+                    {/* Company and other details - modified */}
+                    {/* SECTION 1 STARTS HERE       */}
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <Title level={4} id='customer-details-title' className="bg-[#2A388F] p-2 rounded text-white">
+                                Customer Details
+                            </Title>
+                            <Form.Item
+                                label="Company Name"
+                                name="companyName"
+                                rules={[{ required: true, message: 'Please enter the company name!' }]}
+                            >
+                                <AutoComplete
+
+                                    options={companyOptions}
+                                    placeholder="try to type `company name`"
+                                    filterOption={(inputValue, option) =>
+                                        option &&
+                                        option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
+                                    }
+                                />
+                            </Form.Item>
+                            <Form.Item
+                                label="Attention"
+                                name="contactPerson"
+                                rules={[{ required: true, message: 'Please enter the contact person!' }]}
+                            >
+                                <Input placeholder="Enter contact person" />
+                            </Form.Item>
+                            <Form.Item
+                                label="Address"
+                                name="address-one"
+                                rules={[{ required: true, message: 'Please enter the address!' }]}
+                            >
+                                <Input placeholder="Enter address" />
+                            </Form.Item>
+                            {/* <Form.Item
                                                     label="Address two"
                                                     name="address-two"
                                                     rules={[{ required: true, message: 'Please enter the address two!' }]}
                                                 >
                                                     <Input placeholder="Enter address" />
                                                 </Form.Item> */}
-                                                <Form.Item
-                                                    label="Tel"
-                                                    name="tel"
-                                                    rules={[{ required: true, message: 'Please enter the telephone!' }]}
-                                                >
-                                                    <Input placeholder="Enter telephone number" />
-                                                </Form.Item>
-                                                <Form.Item
-                                                    label="Email"
-                                                    name="email"
-                                                    rules={[{ required: true, message: 'Please enter your email!' }, { type: 'email', message: 'Please enter a valid email!' }]}
-                                                >
-                                                    <Input placeholder="Enter email address" />
-                                                </Form.Item>
-                                            </Col>
-                    
-                                            <Col span={12}>
-                                                <Title level={4} id='other-details-title' className="bg-[#2A388F] p-2 rounded text-white">
-                                                    Other Details
-                                                </Title>
-                                                <Form.Item
-                                                    label="Incoterm"
-                                                    name="incoterm"
-                                                    rules={[{ required: true, message: 'Please select an incoterm!' }]}
-                                                >
-                                                    <Select placeholder="Select an incoterm">
-                                                        <Option value="FOB">FOB</Option>
-                                                        <Option value="CIF">CIF</Option>
-                                                    </Select>
-                                                </Form.Item>
-                                                <Form.Item
-                                                    label="Commodity"
-                                                    name="commodity"
-                                                    rules={[{ required: true, message: 'Please enter the commodity!' }]}
-                                                >
-                                                    <Input placeholder="Enter commodity" />
-                                                </Form.Item>
-                                                <Form.Item
-                                                    label="Dimensions (W x D x H)"
-                                                    name="dimensions"
-                                                    rules={[{ required: true, message: 'Please enter dimensions!' }]}
-                                                >
-                                                    <Input.Group compact className='text-left'>
-                                                        <Input style={{ width: '30%' }} placeholder="Enter Width" />
-                                                        <Input style={{ width: '30%' }} placeholder="Enter Depth" />
-                                                        <Input style={{ width: '30%' }} placeholder="Enter Height" />
-                                                    </Input.Group>
-                                                </Form.Item>
-                    
-                    
-                                                <Form.Item
-                                                    label="Weight"
-                                                    name="weight"
-                                                    rules={[{ required: true, message: 'Please enter weight!' }]}
-                                                >
-                                                    <Input placeholder="Enter weight" />
-                                                </Form.Item>
-                                            </Col>
-                                        </Row>
-                                        {/* SECTION 1 ENDS HERE       */}
+                            <Form.Item
+                                label="Tel"
+                                name="tel"
+                                rules={[{ required: true, message: 'Please enter the telephone!' }]}
+                            >
+                                <Input placeholder="Enter telephone number" />
+                            </Form.Item>
+                            <Form.Item
+                                label="Email"
+                                name="email"
+                                rules={[{ required: true, message: 'Please enter your email!' }, { type: 'email', message: 'Please enter a valid email!' }]}
+                            >
+                                <Input placeholder="Enter email address" />
+                            </Form.Item>
+                        </Col>
+
+                        <Col span={12}>
+                            <Title level={4} id='other-details-title' className="bg-[#2A388F] p-2 rounded text-white">
+                                Other Details
+                            </Title>
+                            <Form.Item
+                                label="Incoterm"
+                                name="incoterm"
+                                rules={[{ required: true, message: 'Please select an incoterm!' }]}
+                            >
+                                <Select placeholder="Select an incoterm">
+                                    <Option value="FOB">FOB</Option>
+                                    <Option value="CIF">CIF</Option>
+                                </Select>
+                            </Form.Item>
+                            <Form.Item
+                                label="Commodity"
+                                name="commodity"
+                                rules={[{ required: true, message: 'Please enter the commodity!' }]}
+                            >
+                                <Input placeholder="Enter commodity" />
+                            </Form.Item>
+                            <Form.Item
+                                label="Dimensions (W x D x H)"
+                                name="dimensions"
+                                rules={[{ required: true, message: 'Please enter dimensions!' }]}
+                            >
+                                <Input.Group compact className='text-left'>
+                                    <Input style={{ width: '30%' }} placeholder="Enter Width" />
+                                    <Input style={{ width: '30%' }} placeholder="Enter Depth" />
+                                    <Input style={{ width: '30%' }} placeholder="Enter Height" />
+                                </Input.Group>
+                            </Form.Item>
+
+
+                            <Form.Item
+                                label="Weight"
+                                name="weight"
+                                rules={[{ required: true, message: 'Please enter weight!' }]}
+                            >
+                                <Input placeholder="Enter weight" />
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                    {/* SECTION 1 ENDS HERE       */}
 
                     {/* Sea Freight Export Charges */}
                     {/* <Title level={4}>Sea Freight Export Charges</Title> */}
@@ -861,14 +976,14 @@ const Test2 = () => {
                     {seaFreightCharges.map((route) => (
                         <div key={route.id}>{renderSeaFreightChargeAccordion(route.id)}</div>
                     ))}
-                    
+
 
                     <Divider />
 
                     <Button id='create-new-route' style={{ maxWidth: '200px' }} type="" onClick={addNewRoute} block className="mb-4 bg-[#2A388F] text-white font-bold hover:bg-[#1A2067] mr-2">
-                        Create Another Route
+                        Create Another Port-Pair
                     </Button>
-                    
+
                     <Button id='save-and-print-btn' style={{ maxWidth: '200px' }} type="" className='bg-[#ED1C24] text-white text-center font-bold rounded-md' onClick={handleSave} block>
                         Save & Print
                     </Button>
