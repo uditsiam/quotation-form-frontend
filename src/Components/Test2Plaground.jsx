@@ -5,6 +5,7 @@ import { DeleteOutlined } from "@ant-design/icons";
 const { Option } = Select;
 
 const DoorDeliveryCharges = () => {
+    //done
     const [doorDeliveryDataSource, setDoorDeliveryDataSource] = useState([
         {
             key: "1",
@@ -19,16 +20,19 @@ const DoorDeliveryCharges = () => {
         },
     ]);
 
+    //done
     const [doorDeliveryChargesOptions, setDoorDeliveryChargesOptions] = useState([
         "*Advance Freight",
         "*Alameda Corrdor",
         "*Arbrtrary",
     ]);
 
+    //done
     const doorDeliveryCurrencies = [
         "NOK", "NZD", "JPY", "SGD", "THB", "FJD", "USD", "RMB", "EUR", "HKD", "AUD", "MYR", "GBP", "CHF", "CNY",
     ];
 
+    //done
     const handleDoorDeliveryChargesNewRow = () => {
         const newRow = {
             key: (doorDeliveryDataSource.length + 1).toString(),
@@ -44,16 +48,19 @@ const DoorDeliveryCharges = () => {
         setDoorDeliveryDataSource([...doorDeliveryDataSource, newRow]);
     };
 
+    //done
     const handleAddDoorDeliveryChargesOptions = (newCompany) => {
         if (newCompany && !doorDeliveryChargesOptions.includes(newCompany)) {
             setDoorDeliveryChargesOptions((prev) => [...prev, newCompany]);
         }
     };
 
+    //done
     const handleDoorDeliveryRowDelete = (key) => {
         setDoorDeliveryDataSource((prevData) => prevData.filter((item) => item.key !== key));
     };
 
+    //done
     const doorDeliveryColumns = [
         {
             title: "Door Delivery Charge",

@@ -1,14 +1,10 @@
-import React, { useState } from "react";
-import { Table, Input, Select, Button, Form } from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
+const FreightCharge = () => {
 
-const { Option } = Select;
-
-const DoorDeliveryCharges = () => {
-    const [doorDeliveryDataSource, setDoorDeliveryDataSource] = useState([
+    //done - Freight Charge Data Source and State
+    const [dataSource, setDataSource] = useState([
         {
             key: "1",
-            company: ["*Advance Freight", "*Alameda Corrdor", "*Arbrtrary"],
+            company: ["OOCL", "KMTC", "ONE"],
             twentyFt: "",
             twentyFtCurrency: "USD",
             fortyFt: "",
@@ -19,19 +15,23 @@ const DoorDeliveryCharges = () => {
         },
     ]);
 
-    const [doorDeliveryChargesOptions, setDoorDeliveryChargesOptions] = useState([
-        "*Advance Freight",
-        "*Alameda Corrdor",
-        "*Arbrtrary",
+
+    //done - Freight Charge Options State
+    const [freightChargeOption, setFreightChargeOption] = useState([
+        "OOCL",
+        "KMTC",
+        "ONE",
     ]);
 
-    const doorDeliveryCurrencies = [
+    //done - Freight Charge Currencies
+    const freightChargeCurrencies = [
         "NOK", "NZD", "JPY", "SGD", "THB", "FJD", "USD", "RMB", "EUR", "HKD", "AUD", "MYR", "GBP", "CHF", "CNY",
     ];
-
-    const handleDoorDeliveryChargesNewRow = () => {
+ 
+    //done - handle Freight Charge Add New Row
+    const handleFreightChargesNewRow = () => {
         const newRow = {
-            key: (doorDeliveryDataSource.length + 1).toString(),
+            key: (dataSource.length + 1).toString(),
             company: [],
             twentyFt: "",
             twentyFtCurrency: "USD",
@@ -41,22 +41,30 @@ const DoorDeliveryCharges = () => {
             fortyFtHCCurrency: "USD",
             remark: "",
         };
-        setDoorDeliveryDataSource([...doorDeliveryDataSource, newRow]);
+        setDataSource([...dataSource, newRow]);
     };
 
-    const handleAddDoorDeliveryChargesOptions = (newCompany) => {
-        if (newCompany && !doorDeliveryChargesOptions.includes(newCompany)) {
-            setDoorDeliveryChargesOptions((prev) => [...prev, newCompany]);
+
+    //done - handle Freight Charge Options
+    const handleAddFreightChargesOptions = (newCompany) => {
+        if (newCompany && !freightChargeOption.includes(newCompany)) {
+            setFreightChargeOption((prev) => [...prev, newCompany]);
         }
     };
 
-    const handleDoorDeliveryRowDelete = (key) => {
-        setDoorDeliveryDataSource((prevData) => prevData.filter((item) => item.key !== key));
+
+    //done - handle Freight Charge Row Delete
+    const handleFreightChargeRowDelete = (key) => {
+        setDataSource((prevData) => prevData.filter((item) => item.key !== key));
     };
 
-    const doorDeliveryColumns = [
+
+   
+
+    //done - Freight Charge Columns
+    const freightChargesColumns = [
         {
-            title: "Door Delivery Charge",
+            title: "Freight Charge (Container)",
             dataIndex: "company",
             key: "company",
             render: (_, record, index) => (
@@ -78,7 +86,7 @@ const DoorDeliveryCharges = () => {
                                         onPressEnter={(e) => {
                                             const newCompany = e.target.value.trim();
                                             if (newCompany) {
-                                                handleAddDoorDeliveryChargesOptions(newCompany);
+                                                handleAddFreightChargesOptions(newCompany);
                                                 e.target.value = "";
                                             }
                                         }}
@@ -89,7 +97,7 @@ const DoorDeliveryCharges = () => {
                         )}
                         style={{ width: "100%" }}
                     >
-                        {doorDeliveryChargesOptions.map((company) => (
+                        {freightChargeOption.map((company) => (
                             <Option key={company} value={company}>
                                 {company}
                             </Option>
@@ -121,7 +129,7 @@ const DoorDeliveryCharges = () => {
                     initialValue={record.twentyFtCurrency}
                 >
                     <Select style={{ width: "100%" }}>
-                        {doorDeliveryCurrencies.map((currency) => (
+                        {freightChargeCurrencies.map((currency) => (
                             <Option key={currency} value={currency}>
                                 {currency}
                             </Option>
@@ -153,7 +161,7 @@ const DoorDeliveryCharges = () => {
                     initialValue={record.fortyFtCurrency}
                 >
                     <Select style={{ width: "100%" }}>
-                        {doorDeliveryCurrencies.map((currency) => (
+                        {freightChargeCurrencies.map((currency) => (
                             <Option key={currency} value={currency}>
                                 {currency}
                             </Option>
@@ -185,7 +193,7 @@ const DoorDeliveryCharges = () => {
                     initialValue={record.fortyFtHCCurrency}
                 >
                     <Select style={{ width: "100%" }}>
-                        {doorDeliveryCurrencies.map((currency) => (
+                        {freightChargeCurrencies.map((currency) => (
                             <Option key={currency} value={currency}>
                                 {currency}
                             </Option>
@@ -220,25 +228,33 @@ const DoorDeliveryCharges = () => {
                 </Button>
             ),
         },
-    ];
+    ]
+
+     //uknown
+     const handleInputChange = (key, field, value) => {
+        const updatedDataSource = dataSource.map(item =>
+            item.key === key ? { ...item, [field]: value } : item
+        );
+        setDataSource(updatedDataSource);
+    };
 
     return (
         <div>
+            {/* Freight Charge UI Start */}
             <div className="overflow-auto w-full">
                 <Table
-                    dataSource={doorDeliveryDataSource}
-                    columns={doorDeliveryColumns}
+                    dataSource={dataSource}
+                    columns={freightChargesColumns}
                     pagination={false}
                     className="min-w-[600px] md:min-w-[800px] lg:min-w-[1000px] customTable"
                     scroll={{ x: "max-content" }}
                     bordered
                 />
             </div>
-            <Button type="primary" onClick={handleDoorDeliveryChargesNewRow} className="mt-4">
+            <Button type="primary" onClick={handleFreightChargesNewRow} className="mt-4">
                 Add Row
             </Button>
+            {/* Freight Charge UI End */}
         </div>
     );
 };
-
-export default DoorDeliveryCharges;

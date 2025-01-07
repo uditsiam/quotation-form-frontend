@@ -46,11 +46,11 @@
     color: #2A388F;
   }
 
-  #delete-btn-1{
+  #delete-btn-1, #delete-btn-2{
     color: #ED1C24!important;
   }
 
-  #add-row-btn-1{
+  #add-row-btn-1, #add-row-btn-2{
     background-color: #ED1C24;
     color: white;
   }

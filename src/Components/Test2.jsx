@@ -13,10 +13,12 @@ const Test2 = () => {
     const [form] = Form.useForm();
     const [seaFreightCharges, setSeaFreightCharges] = useState([{ id: 1 }]);
 
+    //add new route (pair) function
     const addNewRoute = () => {
         setSeaFreightCharges([...seaFreightCharges, { id: seaFreightCharges.length + 1 }]);
     };
 
+    //handle save function
     const handleSave = () => {
         form.validateFields().then((values) => {
             const jsonData = JSON.stringify(values, null, 2);
@@ -77,115 +79,241 @@ const Test2 = () => {
         // Add more rows as needed
     ];
 
-    //new table design
-    const [dataSource, setDataSource] = useState([
-        { key: "1", company: "OOCL", twentyFt: "", twentyFtCurrency: "USD", fortyFt: "", fortyFtCurrency: "USD", fortyFtHC: "", fortyFtHCCurrency: "USD", remark: "" },
-        { key: "2", company: "KMTC", twentyFt: "", twentyFtCurrency: "USD", fortyFt: "", fortyFtCurrency: "USD", fortyFtHC: "", fortyFtHCCurrency: "USD", remark: "" },
-        { key: "3", company: "ONE", twentyFt: "", twentyFtCurrency: "USD", fortyFt: "", fortyFtCurrency: "USD", fortyFtHC: "", fortyFtHCCurrency: "USD", remark: "" },
+
+    //Freight Charge Code Section Starts
+     //done - Freight Charge Data Source and State
+     const [dataSource, setDataSource] = useState([
+        {
+            key: "1",
+            company: ["OOCL", "KMTC", "ONE"],
+            twentyFt: "",
+            twentyFtCurrency: "USD",
+            fortyFt: "",
+            fortyFtCurrency: "USD",
+            fortyFtHC: "",
+            fortyFtHCCurrency: "USD",
+            remark: "",
+        },
     ]);
 
-    const currencies = ["NOK", "NZD", "JPY", "SGD", "THB", "FJD", "USD", "RMB", "EUR", "HKD", "AUD", "MYR", "GBP", "CHF", "CNY"];
 
-    //freight charge columns
+    //done - Freight Charge Options State
+    const [freightChargeOption, setFreightChargeOption] = useState([
+        "OOCL",
+        "KMTC",
+        "ONE",
+    ]);
+
+    //done - Freight Charge Currencies
+    const freightChargeCurrencies = [
+        "NOK", "NZD", "JPY", "SGD", "THB", "FJD", "USD", "RMB", "EUR", "HKD", "AUD", "MYR", "GBP", "CHF", "CNY",
+    ];
+ 
+    //done - handle Freight Charge Add New Row
+    const handleFreightChargesNewRow = () => {
+        const newRow = {
+            key: (dataSource.length + 1).toString(),
+            company: [],
+            twentyFt: "",
+            twentyFtCurrency: "USD",
+            fortyFt: "",
+            fortyFtCurrency: "USD",
+            fortyFtHC: "",
+            fortyFtHCCurrency: "USD",
+            remark: "",
+        };
+        setDataSource([...dataSource, newRow]);
+    };
+
+
+    //done - handle Freight Charge Options
+    const handleAddFreightChargesOptions = (newCompany) => {
+        if (newCompany && !freightChargeOption.includes(newCompany)) {
+            setFreightChargeOption((prev) => [...prev, newCompany]);
+        }
+    };
+
+
+    //done - handle Freight Charge Row Delete
+    const handleFreightChargeRowDelete = (key) => {
+        setDataSource((prevData) => prevData.filter((item) => item.key !== key));
+    };
+
+
+   
+
+    //done - Freight Charge Columns
     const freightChargesColumns = [
         {
             title: "Freight Charge (Container)",
             dataIndex: "company",
             key: "company",
+            render: (_, record, index) => (
+                <Form.Item
+                    name={["data", index, "company"]}
+                    initialValue={record.company}
+                    rules={[{ required: true, message: "Please select a company" }]}
+                >
+                    <Select
+                        // mode="multiple"
+                        placeholder="Select or Add Company"
+                        showArrow
+                        dropdownRender={(menu) => (
+                            <>
+                                {menu}
+                                <div style={{ display: "flex", padding: 8 }}>
+                                    <Input
+                                        placeholder="Add new company"
+                                        onPressEnter={(e) => {
+                                            const newCompany = e.target.value.trim();
+                                            if (newCompany) {
+                                                handleAddFreightChargesOptions(newCompany);
+                                                e.target.value = "";
+                                            }
+                                        }}
+                                        style={{ flex: "auto" }}
+                                    />
+                                </div>
+                            </>
+                        )}
+                        style={{ width: "100%" }}
+                    >
+                        {freightChargeOption.map((company) => (
+                            <Option key={company} value={company}>
+                                {company}
+                            </Option>
+                        ))}
+                    </Select>
+                </Form.Item>
+            ),
         },
         {
             title: "20'",
             dataIndex: "twentyFt",
             key: "twentyFt",
-            render: (_, record) => (
-                <div style={{ display: "flex", gap: "8px" }}>
-                    <Input style={{ width: 80 }}
-                        name={'twentyFreightCharge' + record.key}
-                        value={record.twentyFt}
-                        onChange={(e) => handleInputChange(record.key, "twentyFt", e.target.value)}
-                        placeholder="Enter amount"
-                    />
-                    <Select
-                        value={record.twentyFtCurrency}
-                        onChange={(value) => handleInputChange(record.key, "twentyFtCurrency", value)}
-                        style={{ width: 80 }}
-                    >
-                        {currencies.map((currency) => (
+            render: (_, record, index) => (
+                <Form.Item style={{width: 80}}
+                    name={["data", index, "twentyFt"]}
+                    initialValue={record.twentyFt}
+                >
+                    <Input placeholder="Enter Amount" />
+                </Form.Item>
+            ),
+        },
+        {
+            title: "20' Currency",
+            dataIndex: "twentyFtCurrency",
+            key: "twentyFtCurrency",
+            render: (_, record, index) => (
+                <Form.Item
+                    name={["data", index, "twentyFtCurrency"]}
+                    initialValue={record.twentyFtCurrency}
+                >
+                    <Select style={{ width: "100%" }}>
+                        {freightChargeCurrencies.map((currency) => (
                             <Option key={currency} value={currency}>
                                 {currency}
                             </Option>
                         ))}
                     </Select>
-                </div>
+                </Form.Item>
             ),
         },
         {
             title: "40'",
             dataIndex: "fortyFt",
             key: "fortyFt",
-            render: (_, record) => (
-                <div style={{ display: "flex", gap: "8px" }}>
-                    <Input style={{ width: 80 }}
-                        name={'fourtyFreightCharge' + record.key}
-                        value={record.fortyFt}
-                        onChange={(e) => handleInputChange(record.key, "fortyFt", e.target.value)}
-                        placeholder="Enter amount"
-                    />
-                    <Select
-                        value={record.fortyFtCurrency}
-                        onChange={(value) => handleInputChange(record.key, "fortyFtCurrency", value)}
-                        style={{ width: 80 }}
-                    >
-                        {currencies.map((currency) => (
+            render: (_, record, index) => (
+                <Form.Item style={{width: 80}}
+                    name={["data", index, "fortyFt"]}
+                    initialValue={record.fortyFt}
+                >
+                    <Input placeholder="Enter Amount" />
+                </Form.Item>
+            ),
+        },
+        {
+            title: "40' Currency",
+            dataIndex: "fortyFtCurrency",
+            key: "fortyFtCurrency",
+            render: (_, record, index) => (
+                <Form.Item
+                    name={["data", index, "fortyFtCurrency"]}
+                    initialValue={record.fortyFtCurrency}
+                >
+                    <Select style={{ width: "100%" }}>
+                        {freightChargeCurrencies.map((currency) => (
                             <Option key={currency} value={currency}>
                                 {currency}
                             </Option>
                         ))}
                     </Select>
-                </div>
+                </Form.Item>
             ),
         },
         {
             title: "40'hc",
             dataIndex: "fortyFtHC",
             key: "fortyFtHC",
-            render: (_, record) => (
-                <div style={{ display: "flex", gap: "8px" }}>
-                    <Input style={{ width: 80 }}
-                        name={'fourtyHcFreightCharge' + record.key}
-                        value={record.fortyFtHC}
-                        onChange={(e) => handleInputChange(record.key, "fortyFtHC", e.target.value)}
-                        placeholder='Enter Amount'
-                    />
-                    <Select
-                        value={record.fortyFtHCCurrency}
-                        onChange={(value) => handleInputChange(record.key, "fortyFtHCCurrency", value)}
-                        style={{ width: 80 }}
-                    >
-                        {currencies.map((currency) => (
+            render: (_, record, index) => (
+                <Form.Item style={{width: 80}}
+                    name={["data", index, "fortyFtHC"]}
+                    initialValue={record.fortyFtHC}
+                >
+                    <Input placeholder="Enter Amount" />
+                </Form.Item>
+            ),
+        },
+        {
+            title: "40'hc Currency",
+            dataIndex: "fortyFtHCCurrency",
+            key: "fortyFtHCCurrency",
+            render: (_, record, index) => (
+                <Form.Item
+                    name={["data", index, "fortyFtHCCurrency"]}
+                    initialValue={record.fortyFtHCCurrency}
+                >
+                    <Select style={{ width: "100%" }}>
+                        {freightChargeCurrencies.map((currency) => (
                             <Option key={currency} value={currency}>
                                 {currency}
                             </Option>
                         ))}
                     </Select>
-                </div>
+                </Form.Item>
             ),
         },
         {
             title: "Remark",
             dataIndex: "remark",
             key: "remark",
-            render: (_, record) => (
-                <Input style={{ width: 80 }}
-                    name={'remarkFreightCharge' + record.key}
-                    value={record.remark}
-                    onChange={(e) => handleInputChange(record.key, "remark", e.target.value)}
-                    placeholder='Enter Remark'
-                />
+            render: (_, record, index) => (
+                <Form.Item
+                    name={["data", index, "remark"]}
+                    initialValue={record.remark}
+                >
+                    <Input placeholder="Enter Remark" />
+                </Form.Item>
             ),
         },
-    ];
-    //new table design end
+        {
+            title: "Action",
+            key: "action",
+            render: (_, record) => (
+                <Button
+                id='delete-btn-2' 
+                    type="danger"
+                    icon={<DeleteOutlined />}
+                    onClick={() => handleFreightChargeRowDelete(record.key)}
+                >
+                    Delete
+                </Button>
+            ),
+        },
+    ]
+    //Freight Charge Code Section Ends
+
+
 
     //new local charges
     const [localChargesdataSource, setLocalChargesDataSource] = useState([
@@ -766,16 +894,23 @@ const Test2 = () => {
                             <Col span={24}>
                                 <h2 id='local-charges-title' className="text-left text-xl font-bold text-[#2A388F] mb-0 mt-4 bg-[#1A2067]">Freight Charge</h2>
                             </Col>
-                            <div className="overflow-auto w-full">
-                                <Table
-                                    dataSource={dataSource}
-                                    columns={freightChargesColumns}
-                                    pagination={false}
-                                    className="min-w-[600px] md:min-w-[800px] lg:min-w-[1000px] customTable"
-                                    scroll={{ x: "max-content" }}
-                                    bordered
-                                />
-                            </div>
+                            {/* Freight Charge UI Start */}
+            <div className="overflow-scroll w-full">
+                <Table
+                    dataSource={dataSource}
+                    columns={freightChargesColumns}
+                    pagination={false}
+                    className="min-w-[600px] md:min-w-[800px] lg:min-w-[1000px] customTable"
+                    scroll={{ x: "max-content" }}
+                    bordered
+                />
+            </div>
+            <Button type="primary" 
+            id='add-row-btn-2'
+            onClick={handleFreightChargesNewRow} className="mt-4">
+                Add Row
+            </Button>
+            {/* Freight Charge UI End */}
                         </Row>
                     </Panel>
                     <Panel id='sea-freight-subheader-2' header="Door Delivery Charge" key="door-delivery">
