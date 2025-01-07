@@ -45,3 +45,12 @@
   #sea-freight-subheader-4 .ant-collapse-header {
     color: #2A388F;
   }
+
+  #delete-btn-1{
+    color: #ED1C24!important;
+  }
+
+  #add-row-btn-1{
+    background-color: #ED1C24;
+    color: white;
+  }

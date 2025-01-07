@@ -3,6 +3,7 @@ import { Form, Input, Select, Button, Table, Typography, Row, Col, Collapse, Div
 import jsPDF from 'jspdf';
 import { AutoComplete } from "antd";
 import './QuotationForm.css'
+import { DeleteOutlined } from "@ant-design/icons";
 
 const { Title } = Typography;
 const { Option } = Select;
@@ -175,7 +176,7 @@ const Test2 = () => {
             dataIndex: "remark",
             key: "remark",
             render: (_, record) => (
-                <Input style={{width: 80}}
+                <Input style={{ width: 80 }}
                     name={'remarkFreightCharge' + record.key}
                     value={record.remark}
                     onChange={(e) => handleInputChange(record.key, "remark", e.target.value)}
@@ -287,7 +288,7 @@ const Test2 = () => {
             dataIndex: "remark",
             key: "remark",
             render: (_, record) => (
-                <Input style={{width: 80}}
+                <Input style={{ width: 80 }}
                     name={`remarkLocalCharge` + record.key}
                     value={record.remark}
                     onChange={(e) => handleInputChange(record.key, "remark", e.target.value)}
@@ -301,24 +302,24 @@ const Test2 = () => {
 
     //new door delivery charges
      const [doorDeliveryDataSource, setDoorDeliveryDataSource] = useState([
-       {
-         key: "1",
-         company: ["*Advance Freight", "*Alameda Corrdor", "*Arbrtrary"],
-         twentyFt: "",
-         twentyFtCurrency: "USD",
-         fortyFt: "",
-         fortyFtCurrency: "USD",
-         fortyFtHC: "",
-         fortyFtHCCurrency: "USD",
-         remark: "",
-       },
-     ]);
+            {
+                key: "1",
+                company: ["*Advance Freight", "*Alameda Corrdor", "*Arbrtrary"],
+                twentyFt: "",
+                twentyFtCurrency: "USD",
+                fortyFt: "",
+                fortyFtCurrency: "USD",
+                fortyFtHC: "",
+                fortyFtHCCurrency: "USD",
+                remark: "",
+            },
+        ]);
 
-     //company options
-       const [doorDeliveryChargesOptions, setdoorDeliveryChargesOptions] = useState([
-         "*Advance Freight",
-         "*Alameda Corrdor",
-         "*Arbrtrary",
+    //company options
+   const [doorDeliveryChargesOptions, setDoorDeliveryChargesOptions] = useState([
+           "*Advance Freight",
+           "*Alameda Corrdor",
+           "*Arbrtrary",
        ]);
 
     const doorDeliveryCurrencies = ["NOK", "NZD", "JPY", "SGD", "THB", "FJD", "USD", "RMB", "EUR", "HKD", "AUD", "MYR", "GBP", "CHF", "CNY"];
@@ -327,185 +328,204 @@ const Test2 = () => {
 
     const handleDoorDeliveryChargesNewRow = () => {
         const newRow = {
-          key: (doorDeliveryDataSource.length + 1).toString(),
-          company: [],
-          twentyFt: "",
-          twentyFtCurrency: "USD",
-          fortyFt: "",
-          fortyFtCurrency: "USD",
-          fortyFtHC: "",
-          fortyFtHCCurrency: "USD",
-          remark: "",
+            key: (doorDeliveryDataSource.length + 1).toString(),
+            company: [],
+            twentyFt: "",
+            twentyFtCurrency: "USD",
+            fortyFt: "",
+            fortyFtCurrency: "USD",
+            fortyFtHC: "",
+            fortyFtHCCurrency: "USD",
+            remark: "",
         };
         setDoorDeliveryDataSource([...doorDeliveryDataSource, newRow]);
-      };
+    };
 
-      const handleAddDoorDeliveryChargesOptions = (newCompany) => {
+    const handleAddDoorDeliveryChargesOptions = (newCompany) => {
         if (newCompany && !doorDeliveryChargesOptions.includes(newCompany)) {
-          setdoorDeliveryChargesOptions((prev) => [...prev, newCompany]);
+            setdoorDeliveryChargesOptions((prev) => [...prev, newCompany]);
         }
-      };
+    };
 
-      const doorDeliveryColumns = [
-          {
+    const handleDoorDeliveryRowDelete = (key) => {
+        setDoorDeliveryDataSource((prevData) =>
+            prevData.filter((item) => item.key !== key)
+        );
+    };
+
+    const doorDeliveryColumns = [
+        {
             title: "Door Delivery Charge",
             dataIndex: "company",
             key: "company",
             render: (_, record, index) => (
-              <Form.Item
-                name={["data", index, "company"]}
-                initialValue={record.company}
-                rules={[{ required: true, message: "Please select a company" }]}
-              >
-                <Select style={{ width: 150 }}
-                //   mode="multiple"
-                  placeholder="Select or Add Company"
-                  showArrow
-                  dropdownRender={(menu) => (
-                    <>
-                      {menu}
-                      <div style={{ display: "flex", padding: 8 }}>
-                        <Input 
-                          placeholder="Add New Door Deliver Charge"
-                          onPressEnter={(e) => {
-                            const newCompany = e.target.value.trim();
-                            if (newCompany) {
-                              handleAddDoorDeliveryChargesOptions(newCompany);
-                              e.target.value = "";
-                            }
-                          }}
-                          style={{ flex: "auto" }}
-                        />
-                      </div>
-                    </>
-                  )}
-                  
+                <Form.Item
+                    name={["data", index, "company"]}
+                    initialValue={record.company}
+                    rules={[{ required: true, message: "Please select a company" }]}
                 >
-                  {doorDeliveryChargesOptions.map((company) => (
-                    <Option key={company} value={company}>
-                      {company}
-                    </Option>
-                  ))}
-                </Select>
-              </Form.Item>
+                    <Select
+                        // mode="multiple"
+                        placeholder="Select or Add Company"
+                        showArrow
+                        dropdownRender={(menu) => (
+                            <>
+                                {menu}
+                                <div style={{ display: "flex", padding: 8 }}>
+                                    <Input
+                                        placeholder="Add new company"
+                                        onPressEnter={(e) => {
+                                            const newCompany = e.target.value.trim();
+                                            if (newCompany) {
+                                                handleAddDoorDeliveryChargesOptions(newCompany);
+                                                e.target.value = "";
+                                            }
+                                        }}
+                                        style={{ flex: "auto" }}
+                                    />
+                                </div>
+                            </>
+                        )}
+                        style={{ width: "100%" }}
+                    >
+                        {doorDeliveryChargesOptions.map((company) => (
+                            <Option key={company} value={company}>
+                                {company}
+                            </Option>
+                        ))}
+                    </Select>
+                </Form.Item>
             ),
-          },
-          {
+        },
+        {
             title: "20'",
             dataIndex: "twentyFt",
             key: "twentyFt",
             render: (_, record, index) => (
-              <Form.Item style={{ width: 80 }}
-                name={["data", index, "twentyFt"]}
-                initialValue={record.twentyFt}
-              >
-                <Input placeholder="Enter Amount" />
-              </Form.Item>
+                <Form.Item style={{width: 80}}
+                    name={["data", index, "twentyFt"]}
+                    initialValue={record.twentyFt}
+                >
+                    <Input placeholder="Enter Amount" />
+                </Form.Item>
             ),
-          },
-          {
+        },
+        {
             title: "20' Currency",
             dataIndex: "twentyFtCurrency",
             key: "twentyFtCurrency",
             render: (_, record, index) => (
-              <Form.Item
-                name={["data", index, "twentyFtCurrency"]}
-                initialValue={record.twentyFtCurrency}
-              >
-                <Select style={{ width: "100%" }}>
-                  {doorDeliveryCurrencies.map((currency) => (
-                    <Option key={currency} value={currency}>
-                      {currency}
-                    </Option>
-                  ))}
-                </Select>
-              </Form.Item>
+                <Form.Item
+                    name={["data", index, "twentyFtCurrency"]}
+                    initialValue={record.twentyFtCurrency}
+                >
+                    <Select style={{ width: "100%" }}>
+                        {doorDeliveryCurrencies.map((currency) => (
+                            <Option key={currency} value={currency}>
+                                {currency}
+                            </Option>
+                        ))}
+                    </Select>
+                </Form.Item>
             ),
-          },
-          {
+        },
+        {
             title: "40'",
             dataIndex: "fortyFt",
             key: "fortyFt",
             render: (_, record, index) => (
-              <Form.Item style={{ width: 80 }}
-                name={["data", index, "fortyFt"]}
-                initialValue={record.fortyFt}
-              >
-                <Input placeholder="Enter Amount" />
-              </Form.Item>
+                <Form.Item style={{width: 80}}
+                    name={["data", index, "fortyFt"]}
+                    initialValue={record.fortyFt}
+                >
+                    <Input placeholder="Enter Amount" />
+                </Form.Item>
             ),
-          },
-          {
+        },
+        {
             title: "40' Currency",
             dataIndex: "fortyFtCurrency",
             key: "fortyFtCurrency",
             render: (_, record, index) => (
-              <Form.Item
-                name={["data", index, "fortyFtCurrency"]}
-                initialValue={record.fortyFtCurrency}
-              >
-                <Select style={{ width: "100%" }}>
-                  {doorDeliveryCurrencies.map((currency) => (
-                    <Option key={currency} value={currency}>
-                      {currency}
-                    </Option>
-                  ))}
-                </Select>
-              </Form.Item>
+                <Form.Item
+                    name={["data", index, "fortyFtCurrency"]}
+                    initialValue={record.fortyFtCurrency}
+                >
+                    <Select style={{ width: "100%" }}>
+                        {doorDeliveryCurrencies.map((currency) => (
+                            <Option key={currency} value={currency}>
+                                {currency}
+                            </Option>
+                        ))}
+                    </Select>
+                </Form.Item>
             ),
-          },
-          {
+        },
+        {
             title: "40'hc",
             dataIndex: "fortyFtHC",
             key: "fortyFtHC",
             render: (_, record, index) => (
-              <Form.Item style={{ width: 80 }}
-                name={["data", index, "fortyFtHC"]}
-                initialValue={record.fortyFtHC}
-              >
-                <Input placeholder="Enter Amount" />
-              </Form.Item>
+                <Form.Item style={{width: 80}}
+                    name={["data", index, "fortyFtHC"]}
+                    initialValue={record.fortyFtHC}
+                >
+                    <Input placeholder="Enter Amount" />
+                </Form.Item>
             ),
-          },
-          {
+        },
+        {
             title: "40'hc Currency",
             dataIndex: "fortyFtHCCurrency",
             key: "fortyFtHCCurrency",
             render: (_, record, index) => (
-              <Form.Item
-                name={["data", index, "fortyFtHCCurrency"]}
-                initialValue={record.fortyFtHCCurrency}
-              >
-                <Select style={{ width: "100%" }}>
-                  {doorDeliveryCurrencies.map((currency) => (
-                    <Option key={currency} value={currency}>
-                      {currency}
-                    </Option>
-                  ))}
-                </Select>
-              </Form.Item>
+                <Form.Item
+                    name={["data", index, "fortyFtHCCurrency"]}
+                    initialValue={record.fortyFtHCCurrency}
+                >
+                    <Select style={{ width: "100%" }}>
+                        {doorDeliveryCurrencies.map((currency) => (
+                            <Option key={currency} value={currency}>
+                                {currency}
+                            </Option>
+                        ))}
+                    </Select>
+                </Form.Item>
             ),
-          },
-          {
+        },
+        {
             title: "Remark",
             dataIndex: "remark",
             key: "remark",
             render: (_, record, index) => (
-              <Form.Item style={{width: 80}}
-                name={["data", index, "remark"]}
-                initialValue={record.remark}
-              >
-                <Input placeholder="Enter Remark" />
-              </Form.Item>
+                <Form.Item style={{width: 80}}
+                    name={["data", index, "remark"]}
+                    initialValue={record.remark}
+                >
+                    <Input placeholder="Enter Remark" />
+                </Form.Item>
             ),
-          },
-        ];
+        },
+        {
+            title: "Action",
+            key: "action",
+            render: (_, record) => (
+                <Button id='delete-btn-1'
+                    type="danger"
+                    icon={<DeleteOutlined />}
+                    onClick={() => handleDoorDeliveryRowDelete(record.key)}
+                >
+                    Delete
+                </Button>
+            ),
+        },
+    ];
 
     const handleDoorDeliveryChargesOptions = (newCompany) => {
         if (newCompany && !doorDeliveryChargesOptions.includes(newCompany)) {
-          setdoorDeliveryChargesOptions((prev) => [...prev, newCompany]);
+            setdoorDeliveryChargesOptions((prev) => [...prev, newCompany]);
         }
-      };
+    };
     //new door delivery charges end
 
 
@@ -608,7 +628,7 @@ const Test2 = () => {
             dataIndex: "remark",
             key: "remark",
             render: (_, record) => (
-                <Input style={{width: 80}}
+                <Input style={{ width: 80 }}
                     name={`RemarkCustomAndTransportCharge` + record.key}
                     value={record.remark}
                     onChange={(e) => handleInputChange(record.key, "remark", e.target.value)}
@@ -618,6 +638,7 @@ const Test2 = () => {
         },
     ];
     //new custom and transport charges end
+
     const handleInputChange = (key, field, value) => {
         const newData = [...dataSource];
         const index = newData.findIndex((item) => key === item.key);
@@ -762,28 +783,28 @@ const Test2 = () => {
                         {/* <p>Door delivery details...</p> */}
                         {/* Door Delivery charges */}
                         <Row gutter={[16, 16]} className="flex justify-center">
-                              <Col span={24}>
-                              <h2 id='local-charges-title' className="text-left text-xl font-bold text-[#2A388F] mb-0 mt-4 bg-[#1A2067]">Door Delivery Charge</h2>
-                              </Col>
-                              
-                               
-                                      <div className="overflow-scroll w-full">
-                                        <Table
-                                          dataSource={doorDeliveryDataSource}
-                                          columns={doorDeliveryColumns}
-                                          pagination={false}
-                                          className="min-w-[600px] md:min-w-[800px] lg:min-w-[1000px] customTable"
-                                          scroll={{ x: "max-content" }}
-                                          bordered
-                                        />
-                                      </div>
-                                      <Button type="primary" onClick={handleDoorDeliveryChargesNewRow} className="mt-4">
-                                        Add Row
-                                      </Button>
-                                   
-                              
-                             
-                            </Row>
+                            <Col span={24}>
+                                <h2 id='local-charges-title' className="text-left text-xl font-bold text-[#2A388F] mb-0 mt-4 bg-[#1A2067]">Door Delivery Charge</h2>
+                            </Col>
+
+
+                           <div className="overflow-scroll w-full">
+                                           <Table
+                                               dataSource={doorDeliveryDataSource}
+                                               columns={doorDeliveryColumns}
+                                               pagination={false}
+                                               className="min-w-[600px] md:min-w-[800px] lg:min-w-[1000px] customTable"
+                                               scroll={{ x: "max-content" }}
+                                               bordered
+                                           />
+                                       </div>
+                                       <Button id='add-row-btn-1' type="primary" onClick={handleDoorDeliveryChargesNewRow} className="mt-4">
+                                           Add Row
+                                       </Button>
+
+
+
+                        </Row>
                     </Panel>
                     <Panel id='sea-freight-subheader-3' header="Local Charge" key="local">
                         {/* Local Charge Content */}

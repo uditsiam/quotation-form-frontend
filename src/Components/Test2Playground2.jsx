@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Table, Input, Select, Button, Form } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
 
@@ -18,33 +19,18 @@ const DoorDeliveryCharges = () => {
         },
     ]);
 
-    const [doorDeliveryChargesOptions, setdoorDeliveryChargesOptions] = useState([
+    const [doorDeliveryChargesOptions, setDoorDeliveryChargesOptions] = useState([
         "*Advance Freight",
         "*Alameda Corrdor",
         "*Arbrtrary",
     ]);
 
     const doorDeliveryCurrencies = [
-        "NOK",
-        "NZD",
-        "JPY",
-        "SGD",
-        "THB",
-        "FJD",
-        "USD",
-        "RMB",
-        "EUR",
-        "HKD",
-        "AUD",
-        "MYR",
-        "GBP",
-        "CHF",
-        "CNY",
+        "NOK", "NZD", "JPY", "SGD", "THB", "FJD", "USD", "RMB", "EUR", "HKD", "AUD", "MYR", "GBP", "CHF", "CNY",
     ];
 
     const handleDoorDeliveryChargesNewRow = () => {
         const newRow = {
-            key: Date.now().toString(),
             key: (doorDeliveryDataSource.length + 1).toString(),
             company: [],
             twentyFt: "",
@@ -256,9 +242,3 @@ const DoorDeliveryCharges = () => {
 };
 
 export default DoorDeliveryCharges;
-
-
-
-
-//second
-
