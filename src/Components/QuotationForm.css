@@ -12,3 +12,36 @@
 #local-charges-title{
     background-color: #1A2067;
 }
+
+#create-new-route:hover{
+   background-color: #1A2067!important;
+   color: white!important;
+}
+#save-and-print-btn:hover{
+    background-color: #ED1C24!important;
+    color: white!important;
+}
+
+#sea-freight-header{
+    background-color: #2A388F!important;
+    color: white!important;
+    
+}
+
+#sea-freight-header .ant-collapse-header {
+    color: white; /* Set the text color to white */
+    font-weight: bold;
+  }
+
+  #sea-freight-subheader .ant-collapse-header {
+    color: #2A388F;
+  }
+  #sea-freight-subheader-2 .ant-collapse-header {
+    color: #2A388F;
+  }
+  #sea-freight-subheader-3 .ant-collapse-header {
+    color: #2A388F;
+  }
+  #sea-freight-subheader-4 .ant-collapse-header {
+    color: #2A388F;
+  }

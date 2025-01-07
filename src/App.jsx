@@ -14,8 +14,8 @@ function App() {
 
   return (
     <>
-    {/* <Test2></Test2> */}
-      <QuotationForm3></QuotationForm3>
+    <Test2></Test2>
+      {/* <QuotationForm3></QuotationForm3> */}
       {/* <QuotationForm></QuotationForm> */}
     </>
   )
