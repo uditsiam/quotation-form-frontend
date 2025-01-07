@@ -98,7 +98,7 @@ const Test2 = () => {
             key: "twentyFt",
             render: (_, record) => (
                 <div style={{ display: "flex", gap: "8px" }}>
-                    <Input
+                    <Input style={{width: 80}}
                         name={'twentyFreightCharge' + record.key}
                         value={record.twentyFt}
                         onChange={(e) => handleInputChange(record.key, "twentyFt", e.target.value)}
@@ -124,7 +124,7 @@ const Test2 = () => {
             key: "fortyFt",
             render: (_, record) => (
                 <div style={{ display: "flex", gap: "8px" }}>
-                    <Input
+                    <Input style={{width: 80}}
                         name={'fourtyFreightCharge' + record.key}
                         value={record.fortyFt}
                         onChange={(e) => handleInputChange(record.key, "fortyFt", e.target.value)}
@@ -150,7 +150,7 @@ const Test2 = () => {
             key: "fortyFtHC",
             render: (_, record) => (
                 <div style={{ display: "flex", gap: "8px" }}>
-                    <Input
+                    <Input style={{width: 80}}
                         name={'fourtyHcFreightCharge' + record.key}
                         value={record.fortyFtHC}
                         onChange={(e) => handleInputChange(record.key, "fortyFtHC", e.target.value)}
@@ -210,7 +210,7 @@ const Test2 = () => {
             key: "twentyFt",
             render: (_, record) => (
                 <div style={{ display: "flex", gap: "8px" }}>
-                    <Input
+                    <Input style={{width: 80}}
                         name={`twentyLocalCharge` + record.key}
                         value={record.twentyFt}
                         onChange={(e) => handleInputChange(record.key, "twentyFt", e.target.value)}
@@ -236,7 +236,7 @@ const Test2 = () => {
             key: "fortyFt",
             render: (_, record) => (
                 <div style={{ display: "flex", gap: "8px" }}>
-                    <Input
+                    <Input style={{width: 80}}
                         name={`fourtyLocalCharge` + record.key}
                         value={record.fortyFt}
                         onChange={(e) => handleInputChange(record.key, "fortyFt", e.target.value)}
@@ -262,7 +262,7 @@ const Test2 = () => {
             key: "fortyFtHC",
             render: (_, record) => (
                 <div style={{ display: "flex", gap: "8px" }}>
-                    <Input
+                    <Input style={{width: 80}}
                         name={`fourtyHCLocalCharge` + record.key}
                         value={record.fortyFtHC}
                         onChange={(e) => handleInputChange(record.key, "fortyFtHC", e.target.value)}
@@ -321,7 +321,7 @@ const Test2 = () => {
             key: "twentyFt",
             render: (_, record) => (
                 <div style={{ display: "flex", gap: "8px" }}>
-                    <Input
+                    <Input style={{width: 80}}
                         name={`twentyDoorDeliveryCharge` + record.key}
                         value={record.twentyFt}
                         onChange={(e) => handleInputChange(record.key, "twentyFt", e.target.value)}
@@ -347,7 +347,7 @@ const Test2 = () => {
             key: "fortyFt",
             render: (_, record) => (
                 <div style={{ display: "flex", gap: "8px" }}>
-                    <Input
+                    <Input style={{width: 80}}
                         name={`fourtyDoorDeliveryCharge` + record.key}
                         value={record.fortyFt}
                         onChange={(e) => handleInputChange(record.key, "fortyFt", e.target.value)}
@@ -373,7 +373,7 @@ const Test2 = () => {
             key: "fortyFtHC",
             render: (_, record) => (
                 <div style={{ display: "flex", gap: "8px" }}>
-                    <Input
+                    <Input style={{width: 80}}
                         name={`foutryHcDoorDeliveryCharge` + record.key}
                         value={record.fortyFtHC}
                         onChange={(e) => handleInputChange(record.key, "fortyFtHC", e.target.value)}
@@ -432,7 +432,7 @@ const Test2 = () => {
             key: "twentyFt",
             render: (_, record) => (
                 <div style={{ display: "flex", gap: "8px" }}>
-                    <Input
+                    <Input style={{width: 80}}
                         name={`TwentyCustomAndTransportCharge` + record.key}
                         value={record.twentyFt}
                         onChange={(e) => handleInputChange(record.key, "twentyFt", e.target.value)}
@@ -458,7 +458,7 @@ const Test2 = () => {
             key: "fortyFt",
             render: (_, record) => (
                 <div style={{ display: "flex", gap: "8px" }}>
-                    <Input
+                    <Input style={{width: 80}}
                         name={`FourtyCustomAndTransportCharge` + record.key}
                         value={record.fortyFt}
                         onChange={(e) => handleInputChange(record.key, "fortyFt", e.target.value)}
@@ -484,7 +484,7 @@ const Test2 = () => {
             key: "fortyFtHC",
             render: (_, record) => (
                 <div style={{ display: "flex", gap: "8px" }}>
-                    <Input
+                    <Input style={{width: 80}}
                         value={record.fortyFtHC}
                         onChange={(e) => handleInputChange(record.key, "fortyFtHC", e.target.value)}
                         placeholder="Enter amount"
